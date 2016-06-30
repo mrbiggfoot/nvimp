@@ -1,0 +1,2 @@
+# nvimp
+My neovim configuration.
