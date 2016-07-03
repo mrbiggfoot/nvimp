@@ -10,7 +10,21 @@ Plug 'junegunn/fzf.vim'
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
 
+function! DoRemote(arg)
+	UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+
 call plug#end()
+
+"------------------------------------------------------------------------------
+" Plugins configuration
+"------------------------------------------------------------------------------
+
+" Use deoplete
+let g:deoplete#enable_at_startup = 1
+" deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 "------------------------------------------------------------------------------
 " Misc configuration
@@ -64,3 +78,8 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
 colorscheme my_colors_light
+
+" Restore the previous session, if required
+if @% == '' && filereadable("./Session.vim")
+	silent source ./Session.vim
+endif
