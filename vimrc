@@ -7,6 +7,10 @@ call plug#begin('~/neovim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+Plug 'vim-scripts/a.vim'
+Plug 'moll/vim-bbye'
+Plug 'tpope/vim-obsession'
+
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
 
@@ -25,6 +29,195 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+"------------------------------------------------------------------------------
+" Projects configuration
+"------------------------------------------------------------------------------
+
+if has('vim_starting')
+	let s:vimp_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+endif
+
+function! s:configure_project()
+	let prj_meta_root = $VIMP_PROJECTS_META_ROOT " must be an absolute path, or 'lid' won't work
+	let cur_prj_root = getcwd()
+	let cur_prj_branch = system('git rev-parse --abbrev-ref HEAD 2>/dev/null')
+	let cur_prj_branch = substitute(cur_prj_branch, '\n', '', '')
+	let cur_prj_meta_root = prj_meta_root . cur_prj_root . '/' . cur_prj_branch
+
+	if isdirectory(cur_prj_meta_root)
+		let cur_prj_ctags = cur_prj_meta_root . "/tags"
+
+		" The following line is needed for project files opener key mapping
+		let g:cur_prj_files = cur_prj_meta_root . "/files"
+
+		" The following line specifies the IDs db path
+		let g:unite_ids_db_path = cur_prj_meta_root . "/ID"
+
+		exec "set tags=" . cur_prj_ctags . ";"
+	endif
+endfunction
+
+call s:configure_project()
+
+function! s:update_project()
+	exec '!' . s:vimp_path . '/project_generate.sh'
+	call s:configure_project()
+endfunction
+
+"------------------------------------------------------------------------------
+" Keyboard shortcuts
+"------------------------------------------------------------------------------
+
+" Enter insert mode - F13 on Mac
+nnoremap <Esc>[1;2P :startinsert<CR>
+
+" Word navigation
+nnoremap <Esc>b b
+nnoremap <Esc>f e
+
+inoremap <Esc>b <C-Left>
+inoremap <Esc>f <C-Right>
+" Ctrl-left|right on Mac
+inoremap <Esc>[1;5D <C-Left>
+inoremap <Esc>[1;5C <C-Right>
+
+" Opt-up|down scrolling
+nnoremap <Esc>[1;9B <C-e>
+nnoremap <Esc>[1;9A <C-y>
+inoremap <Esc>[1;9B <C-x><C-e>
+inoremap <Esc>[1;9A <C-x><C-y>
+nnoremap . <C-e>
+nnoremap ; <C-y>
+
+" Ctrl-up|down scrolling
+nnoremap <C-Down> <C-e>
+nnoremap <C-Up> <C-y>
+inoremap <C-Down> <C-x><C-e>
+inoremap <C-Up> <C-x><C-y>
+
+" Window navigation: Shift-arrows
+inoremap <S-Left> <C-o><C-w><Left>
+inoremap <S-Right> <C-o><C-w><Right>
+inoremap <S-Up> <C-o><C-w><Up>
+inoremap <S-Down> <C-o><C-w><Down>
+
+nnoremap <S-Left> <C-w><Left>
+nnoremap <S-Right> <C-w><Right>
+nnoremap <S-Up> <C-w><Up>
+nnoremap <S-Down> <C-w><Down>
+
+" Buffer navigation
+" Ctrl-left|right
+nnoremap <C-Left> :bprev<CR>
+nnoremap <C-Right> :bnext<CR>
+
+" Enhance '<' '>' - do not need to reselect the block after shift it.
+vnoremap < <gv
+vnoremap > >gv
+
+" Close buffer
+nnoremap <leader>q :Bdelete<CR>
+
+" Alt-c|v - copy/paste from X clipboard.
+vnoremap ç "+y
+nnoremap ç V"+y:echo "1 line yanked"<CR>
+nnoremap √ "+P
+inoremap √ <C-o>"+P
+
+" Alt-/ - switch to correspondent header/source file
+nnoremap ÷ :A<CR>
+inoremap ÷ <C-o>:A<CR>
+" Alt-Shift-/ - swich to file under cursor
+nnoremap ¿ :IH<CR>
+inoremap ¿ <C-O>:IH<CR>
+
+function! SwapWindowWith(pos)
+	let l:cur_wnd = winnr()
+	let l:cur_buf = bufnr('%')
+	let l:cur_view = winsaveview()
+	exec "100wincmd h"
+	if a:pos > 1
+		exec (a:pos - 1) . "wincmd l"
+	endif
+	let l:swap_buf = bufnr('%')
+	let l:swap_view = winsaveview()
+	exec "b " . l:cur_buf
+	call winrestview(l:cur_view)
+	exec l:cur_wnd . "wincmd w"
+	exec "b " . l:swap_buf
+	call winrestview(l:swap_view)
+endfunction
+
+nnoremap 11 :call SwapWindowWith(1)<CR>
+nnoremap 22 :call SwapWindowWith(2)<CR>
+nnoremap 33 :call SwapWindowWith(3)<CR>
+nnoremap 44 :call SwapWindowWith(4)<CR>
+
+function! ToggleColorColumn()
+  if &colorcolumn == 0
+    set colorcolumn=80
+  else
+    set colorcolumn=0
+  endif
+endfunction
+nnoremap <F7> :call ToggleColorColumn()<CR>
+inoremap <F7> <C-o>:call ToggleColorColumn()<CR>
+
+nnoremap <leader>8 :vertical resize 90<CR>
+
+function! DupRight()
+  let l:cur_wnd = winnr()
+  let l:cur_view = winsaveview()
+  let l:cur_buf = bufnr('%')
+  exec "wincmd l"
+  if winnr() == l:cur_wnd
+    exec "wincmd v"
+    exec "wincmd l"
+  endif
+  exec "b " . l:cur_buf
+  call winrestview(l:cur_view)
+endfunction
+nnoremap <Bar> :call DupRight()<CR>
+
+" F3 - browse buffers
+function! BufWindow()
+	let l:num_bufs = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) + 2
+	if exists("g:fzf_layout")
+		let l:fzf_layout = g:fzf_layout
+	endif
+	exec 'let g:fzf_layout = {"window":"belowright ' . l:num_bufs . 'new"}'
+	exec "Buffers"
+	if exists("l:fzf_layout")
+		let g:fzf_layout = l:fzf_layout
+	else
+		unlet g:fzf_layout
+	endif
+endfunction
+nnoremap <F3> :call BufWindow()<CR>
+
+" F8 - clear highlight of the last search until the next search
+nnoremap <Esc>[19~ :noh<CR>
+inoremap <Esc>[19~ <C-o>:noh<CR>
+
+" Cmd-F9|F10 - backward/forward jump stack navigation
+nnoremap <Esc>[20;3~ <C-o>
+nnoremap <Esc>[21;3~ <C-i>
+inoremap <Esc>[20;3~ <C-o><C-o>
+inoremap <Esc>[21;3~ <C-o><C-i>
+
+" Ctrl-P - open list of files
+function! FilesCmd(file_source)
+	return ':call fzf#run({"source":"' . a:file_source . '", "sink":"e",
+		\"up":"~40%", "options":"--reverse"})<CR>'
+endfunction
+if exists("g:cur_prj_files")
+	let s:ctrl_p_cmd = FilesCmd('cat ' . g:cur_prj_files)
+else
+	let s:ctrl_p_cmd = FilesCmd('find .')
+endif
+exec 'nnoremap <C-p> ' . s:ctrl_p_cmd
+exec 'inoremap <C-p> <Esc>' . s:ctrl_p_cmd
 
 "------------------------------------------------------------------------------
 " Misc configuration
