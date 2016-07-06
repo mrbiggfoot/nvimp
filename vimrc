@@ -209,7 +209,7 @@ inoremap <Esc>[21;3~ <C-o><C-i>
 " Ctrl-P - open list of files
 function! FilesCmd(file_source)
 	return ':call fzf#run({"source":"' . a:file_source . '", "sink":"e",
-		\"up":"~40%", "options":"--reverse"})<CR>'
+		\"up":"~40%", "options":"--reverse --bind=tab:down"})<CR>'
 endfunction
 if exists("g:cur_prj_files")
 	let s:ctrl_p_cmd = FilesCmd('cat ' . g:cur_prj_files)
