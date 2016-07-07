@@ -180,21 +180,26 @@ function! DupRight()
 endfunction
 nnoremap <Bar> :call DupRight()<CR>
 
+" F2 - browse buffer tags
+nnoremap <F2> :BTags<CR>
+inoremap <F2> <Esc>:BTags<CR>
+
 " F3 - browse buffers
 function! BufWindow()
 	let l:num_bufs = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) + 2
 	if exists("g:fzf_layout")
-		let l:fzf_layout = g:fzf_layout
+		let l:saved_layout = g:fzf_layout
 	endif
 	exec 'let g:fzf_layout = {"window":"belowright ' . l:num_bufs . 'new"}'
 	exec "Buffers"
-	if exists("l:fzf_layout")
-		let g:fzf_layout = l:fzf_layout
+	if exists("l:saved_layout")
+		let g:fzf_layout = l:saved_layout
 	else
 		unlet g:fzf_layout
 	endif
 endfunction
 nnoremap <F3> :call BufWindow()<CR>
+inoremap <F3> <Esc>:call BufWindow()<CR>
 
 " F8 - clear highlight of the last search until the next search
 nnoremap <Esc>[19~ :noh<CR>
