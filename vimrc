@@ -70,12 +70,9 @@ endfunction
 " Keyboard shortcuts
 "------------------------------------------------------------------------------
 
-" Enter insert mode - F13 on Mac
-nnoremap <Esc>[1;2P :startinsert<CR>
-
 " Word navigation
-nnoremap <Esc>b b
-nnoremap <Esc>f e
+nnoremap <C-Left> b
+nnoremap <C-Right> e
 
 inoremap <Esc>b <C-Left>
 inoremap <Esc>f <C-Right>
@@ -110,8 +107,8 @@ nnoremap <S-Down> <C-w><Down>
 
 " Buffer navigation
 " Ctrl-left|right
-nnoremap <C-Left> :bprev<CR>
-nnoremap <C-Right> :bnext<CR>
+"nnoremap <C-Left> :bprev<CR>
+"nnoremap <C-Right> :bnext<CR>
 
 " Enhance '<' '>' - do not need to reselect the block after shift it.
 vnoremap < <gv
