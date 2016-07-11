@@ -203,14 +203,14 @@ nnoremap <F3> :call BufWindow()<CR>
 inoremap <F3> <Esc>:call BufWindow()<CR>
 
 " F8 - clear highlight of the last search until the next search
-nnoremap <Esc>[19~ :noh<CR>
-inoremap <Esc>[19~ <C-o>:noh<CR>
+nnoremap <F8> :noh<CR>
+inoremap <F8> <C-o>:noh<CR>
 
 " Cmd-F9|F10 - backward/forward jump stack navigation
-nnoremap <Esc>[20;3~ <C-o>
-nnoremap <Esc>[21;3~ <C-i>
-inoremap <Esc>[20;3~ <C-o><C-o>
-inoremap <Esc>[21;3~ <C-o><C-i>
+nnoremap <M-F9> <C-o>
+nnoremap <M-F10> <C-i>
+inoremap <M-F9> <C-o><C-o>
+inoremap <M-F10> <C-o><C-i>
 
 " Ctrl-P - open list of files
 function! FilesCmd(file_source)
