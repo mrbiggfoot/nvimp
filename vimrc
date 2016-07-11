@@ -39,7 +39,8 @@ if has('vim_starting')
 endif
 
 function! s:configure_project()
-	let prj_meta_root = $VIMP_PROJECTS_META_ROOT " must be an absolute path, or 'lid' won't work
+	" prj_meta_root must be an absolute path, or 'lid' won't work
+	let prj_meta_root = $VIMP_PROJECTS_META_ROOT
 	let cur_prj_root = getcwd()
 	let cur_prj_branch = system('git rev-parse --abbrev-ref HEAD 2>/dev/null')
 	let cur_prj_branch = substitute(cur_prj_branch, '\n', '', '')
@@ -252,10 +253,11 @@ set laststatus=2 " always have status-line
 set number
 
 " Search (/)
-set hls " Enable search pattern highlight
-set incsearch " Do incremental searching
-set ignorecase " Set search/replace pattern to ignore case
-set smartcase " Set smartcase mode on, If there is upper case character in the search patern, the 'ignorecase' option will be override.
+set hls			" Enable search pattern highlight
+set incsearch	" Do incremental searching
+set ignorecase	" Set search/replace pattern to ignore case
+set smartcase	" Set smartcase mode on, If there is upper case character in
+				" the search patern, the 'ignorecase' option will be override.
 
 " Common indent settings
 set shiftwidth=4
@@ -264,14 +266,17 @@ set sts=4
 set noexpandtab
 set autoindent
 set smartindent
-"see help cinoptions-values for more details
-set	cinoptions=>s,e0,n0,f0,{0,}0,^0,:0,=s,l0,b0,g0,hs,ps,ts,is,+s,c3,C0,0,(0,us,U0,w0,W0,m0,j0,)20,*30
+" See help cinoptions-values for more details
+set	cinoptions=>s,e0,n0,f0,{0,}0,^0,:0,=s,l0,b0,g0,hs,ps,ts,is,+s,c3,C0,0,
+	\(0,us,U0,w0,W0,m0,j0,)20,*30
 
 " File type specific indent settings
-autocmd FileType c,cpp,proto,python,cmake,javascript,java setlocal sw=2 ts=2 sts=2 expandtab autoindent
+autocmd FileType c,cpp,proto,python,cmake,javascript,java
+	\ setlocal sw=2 ts=2 sts=2 expandtab autoindent
 
-" Uncomment the following to have Vim jump to the last position when reopening a file
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Jump to the last position when reopening a file
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
+	\ exe "normal! g'\"" | endif
 
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
