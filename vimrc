@@ -167,27 +167,34 @@ function! DupRight()
 endfunction
 nnoremap <Bar> :call DupRight()<CR>
 
-" F2 - browse buffer tags
-nnoremap <F2> :BTags<CR>
-inoremap <F2> <Esc>:BTags<CR>
-
-" Cmd-F2 - browse buffer tags
-nnoremap <M-F2> :Tags<CR>
-inoremap <M-F2> <Esc>:Tags<CR>
-
-" F3 - browse buffers
-function! BufWindow()
-	let l:num_bufs = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) + 2
+" Open a fzf.vim window with the specified layout.
+function! FzfWindow(layout, fzf_cmd)
 	if exists("g:fzf_layout")
 		let l:saved_layout = g:fzf_layout
 	endif
-	exec 'let g:fzf_layout = {"window":"belowright ' . l:num_bufs . 'new"}'
-	exec "Buffers"
+	let g:fzf_layout = a:layout
+	exec a:fzf_cmd
 	if exists("l:saved_layout")
 		let g:fzf_layout = l:saved_layout
 	else
 		unlet g:fzf_layout
 	endif
+endfunction
+
+" F2 - browse buffer tags
+nnoremap <F2> :BTags<CR>
+inoremap <F2> <Esc>:BTags<CR>
+
+" Cmd-F2 - browse buffer tags
+let g:nvimp_fzf_tags_layout = { "down":"~40%", "options":"--reverse" }
+nnoremap <M-F2> :call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
+inoremap <M-F2> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
+
+" F3 - browse buffers
+function! BufWindow()
+	let l:num_bufs = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) + 2
+	exec 'let l:layout = {"window":"belowright ' . l:num_bufs . 'new"}'
+	call FzfWindow(l:layout, "Buffers")
 endfunction
 nnoremap <F3> :call BufWindow()<CR>
 inoremap <F3> <Esc>:call BufWindow()<CR>
