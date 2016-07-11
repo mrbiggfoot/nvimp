@@ -72,13 +72,7 @@ endfunction
 
 " Word navigation
 nnoremap <C-Left> b
-nnoremap <C-Right> e
-
-inoremap <Esc>b <C-Left>
-inoremap <Esc>f <C-Right>
-" Ctrl-left|right on Mac
-inoremap <Esc>[1;5D <C-Left>
-inoremap <Esc>[1;5C <C-Right>
+nnoremap <C-Right> w
 
 " Opt-up|down scrolling
 nnoremap <Esc>[1;9B <C-e>
@@ -104,11 +98,6 @@ nnoremap <S-Left> <C-w><Left>
 nnoremap <S-Right> <C-w><Right>
 nnoremap <S-Up> <C-w><Up>
 nnoremap <S-Down> <C-w><Down>
-
-" Buffer navigation
-" Ctrl-left|right
-"nnoremap <C-Left> :bprev<CR>
-"nnoremap <C-Right> :bnext<CR>
 
 " Enhance '<' '>' - do not need to reselect the block after shift it.
 vnoremap < <gv
@@ -182,6 +171,10 @@ nnoremap <Bar> :call DupRight()<CR>
 nnoremap <F2> :BTags<CR>
 inoremap <F2> <Esc>:BTags<CR>
 
+" Cmd-F2 - browse buffer tags
+nnoremap <M-F2> :Tags<CR>
+inoremap <M-F2> <Esc>:Tags<CR>
+
 " F3 - browse buffers
 function! BufWindow()
 	let l:num_bufs = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) + 2
@@ -202,6 +195,10 @@ inoremap <F3> <Esc>:call BufWindow()<CR>
 " F8 - clear highlight of the last search until the next search
 nnoremap <F8> :noh<CR>
 inoremap <F8> <C-o>:noh<CR>
+
+" F9 - show opened files history
+nnoremap <F9> :History<CR>
+inoremap <F9> <C-o>:History<CR>
 
 " Cmd-F9|F10 - backward/forward jump stack navigation
 nnoremap <M-F9> <C-o>
