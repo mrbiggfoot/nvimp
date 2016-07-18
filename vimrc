@@ -207,6 +207,22 @@ inoremap <F8> <C-o>:noh<CR>
 nnoremap <F9> :History<CR>
 inoremap <F9> <C-o>:History<CR>
 
+" F12 - find definitions of the word under cursor
+function! TagSelect(e)
+	let l:tl = matchlist(a:e, '\(\a\)\s\(\S*\)\s\+\(/^.*$/\)')
+	exec 'e ' . l:tl[2]
+	silent exec escape(l:tl[3], '*[]')
+endfunction
+function! TagSelectWindow(tag)
+	let l:taglist = map(taglist('^' . a:tag . '$'),
+		\'v:val["kind"] . " " .v:val["filename"] . "\t" . v:val["cmd"]')
+	call fzf#run({ 'source' : l:taglist, 'sink' : function('TagSelect'),
+		\'down' : '~40%', 'options' : '--reverse --bind=tab:down --header=' .
+		\ a:tag })
+endfunction
+nnoremap <F12> :call TagSelectWindow("<C-r><C-w>")<CR>
+inoremap <F12> <Esc>:call TagSelectWindow("<C-r><C-w>")<CR>
+
 " Cmd-F9|F10 - backward/forward jump stack navigation
 nnoremap <M-F9> <C-o>
 nnoremap <M-F10> <C-i>
