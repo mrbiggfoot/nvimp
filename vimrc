@@ -13,6 +13,10 @@ Plug 'tpope/vim-obsession'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
+Plug 'mrbiggfoot/unite-tselect2'
+Plug 'mrbiggfoot/unite-id'
+
+Plug 'Shougo/unite.vim'
 
 function! DoRemote(arg)
 	UpdateRemotePlugins
@@ -29,6 +33,34 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" Unite
+call unite#custom#profile('default', 'context', {
+\	'direction': 'dynamicbottom',
+\	'cursor_line_time': '0.0',
+\	'prompt_direction': 'top',
+\	'auto_resize': 1,
+\	'select': '1'
+\ })
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+	nmap <buffer> p <Plug>(unite_toggle_auto_preview)
+	nmap <buffer> <Esc> <Plug>(unite_exit)
+	imap <buffer> <Tab> <C-x><Down>
+	imap <buffer> <S-Tab> <C-x><Up>
+	" Disable cursor looping
+	silent! nunmap <buffer> <Up>
+	silent! nunmap <buffer> <Down>
+	" Unmap keys defined globally
+	silent! nunmap <buffer> <C-p>
+	silent! iunmap <buffer> <C-p>
+	hi! link CursorLine PmenuSel
+endfunction
+call unite#custom#source('file,file/new,file_list,buffer', 'matchers',
+	\'matcher_fuzzy')
+call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
+	\'sorter_rank')
 
 "------------------------------------------------------------------------------
 " Projects configuration
@@ -203,25 +235,33 @@ inoremap <F3> <Esc>:call BufWindow()<CR>
 nnoremap <F8> :noh<CR>
 inoremap <F8> <C-o>:noh<CR>
 
-" F9 - show opened files history
-nnoremap <F9> :History<CR>
-inoremap <F9> <C-o>:History<CR>
+function! StartOrCloseUnite(unite_cmd)
+	let unite_winnr = unite#get_unite_winnr('default')
+	if unite_winnr > 0
+		exec "Unite -toggle"
+	else
+		exec a:unite_cmd
+	endif
+endfunction
+
+function! StartOrCloseUniteCallCmd(unite_cmd)
+	return ':call StartOrCloseUnite("' . a:unite_cmd . '")<CR>'
+endfunction
+
+" F9 - jump list
+let s:f9_cmd = StartOrCloseUniteCallCmd('Unite jump')
+exec 'nnoremap <silent> <F9> ' . s:f9_cmd
+exec 'inoremap <silent> <F9> <Esc>' . s:f9_cmd
 
 " F12 - find definitions of the word under cursor
-function! TagSelect(e)
-	let l:tl = matchlist(a:e, '\(\a\)\s\(\S*\)\s\+\(/^.*$/\)')
-	exec 'e ' . l:tl[2]
-	silent exec escape(l:tl[3], '*[]')
-endfunction
-function! TagSelectWindow(tag)
-	let l:taglist = map(taglist('^' . a:tag . '$'),
-		\'v:val["kind"] . " " .v:val["filename"] . "\t" . v:val["cmd"]')
-	call fzf#run({ 'source' : l:taglist, 'sink' : function('TagSelect'),
-		\'down' : '~40%', 'options' : '--reverse --bind=tab:down --header=' .
-		\ a:tag })
-endfunction
-nnoremap <F12> :call TagSelectWindow("<C-r><C-w>")<CR>
-inoremap <F12> <Esc>:call TagSelectWindow("<C-r><C-w>")<CR>
+let s:f12_cmd = StartOrCloseUniteCallCmd('Unite tselect')
+exec 'nnoremap <silent> <F12> ' . s:f12_cmd
+exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
+
+" Shift-F12 - find references to the word under cursor using lid (IDs db)
+let s:s_f12_cmd = StartOrCloseUniteCallCmd('Unite id/lid:<C-r><C-w>:-w')
+exec 'nnoremap <silent> <S-F12> ' . s:s_f12_cmd
+exec 'inoremap <silent> <S-F12> <Esc>' . s:s_f12_cmd
 
 " Cmd-F9|F10 - backward/forward jump stack navigation
 nnoremap <M-F9> <C-o>
@@ -239,8 +279,8 @@ if exists("g:cur_prj_files")
 else
 	let s:ctrl_p_cmd = FilesCmd('find .')
 endif
-exec 'nnoremap <C-p> ' . s:ctrl_p_cmd
-exec 'inoremap <C-p> <Esc>' . s:ctrl_p_cmd
+exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
+exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
 
 "------------------------------------------------------------------------------
 " Misc configuration
