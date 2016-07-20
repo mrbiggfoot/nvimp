@@ -131,6 +131,12 @@ nnoremap <S-Right> <C-w><Right>
 nnoremap <S-Up> <C-w><Up>
 nnoremap <S-Down> <C-w><Down>
 
+" Move from the neovim terminal window to other neovim windows
+tnoremap <S-Left> <C-\><C-n><C-w><Left>
+tnoremap <S-Right> <C-\><C-n><C-w><Right>
+tnoremap <S-Up> <C-\><C-n><C-w><Up>
+tnoremap <S-Down> <C-\><C-n><C-w><Down>
+
 " Enhance '<' '>' - do not need to reselect the block after shift it.
 vnoremap < <gv
 vnoremap > >gv
@@ -213,28 +219,6 @@ function! FzfWindow(layout, fzf_cmd)
 	endif
 endfunction
 
-" F2 - browse buffer tags
-nnoremap <F2> :BTags<CR>
-inoremap <F2> <Esc>:BTags<CR>
-
-" Cmd-F2 - browse buffer tags
-let g:nvimp_fzf_tags_layout = { "down":"~40%", "options":"--reverse" }
-nnoremap <M-F2> :call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
-inoremap <M-F2> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
-
-" F3 - browse buffers
-function! BufWindow()
-	let l:num_bufs = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) + 2
-	exec 'let l:layout = {"window":"belowright ' . l:num_bufs . 'new"}'
-	call FzfWindow(l:layout, "Buffers")
-endfunction
-nnoremap <F3> :call BufWindow()<CR>
-inoremap <F3> <Esc>:call BufWindow()<CR>
-
-" F8 - clear highlight of the last search until the next search
-nnoremap <F8> :noh<CR>
-inoremap <F8> <C-o>:noh<CR>
-
 function! StartOrCloseUnite(unite_cmd)
 	let unite_winnr = unite#get_unite_winnr('default')
 	if unite_winnr > 0
@@ -244,14 +228,34 @@ function! StartOrCloseUnite(unite_cmd)
 	endif
 endfunction
 
+" Returns the command to toggle the specified unite window.
 function! StartOrCloseUniteCallCmd(unite_cmd)
 	return ':call StartOrCloseUnite("' . a:unite_cmd . '")<CR>'
 endfunction
+
+" F3 - browse buffers
+let s:f3_cmd = StartOrCloseUniteCallCmd('Unite buffer')
+exec 'nnoremap <silent> <F3> ' . s:f3_cmd
+exec 'inoremap <silent> <F3> <Esc>' . s:f3_cmd
+exec 'tnoremap <silent> <F3> <C-\><C-n>' . s:f3_cmd
+
+" F8 - clear highlight of the last search until the next search
+nnoremap <F8> :noh<CR>
+inoremap <F8> <C-o>:noh<CR>
 
 " F9 - jump list
 let s:f9_cmd = StartOrCloseUniteCallCmd('Unite jump')
 exec 'nnoremap <silent> <F9> ' . s:f9_cmd
 exec 'inoremap <silent> <F9> <Esc>' . s:f9_cmd
+
+" F10 - browse buffer tags
+nnoremap <F10> :BTags<CR>
+inoremap <F10> <Esc>:BTags<CR>
+
+" Shift-F10 - browse all tags
+let g:nvimp_fzf_tags_layout = { "down":"~40%", "options":"--reverse" }
+nnoremap <S-F10> :call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
+inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
 
 " F12 - find definitions of the word under cursor
 let s:f12_cmd = StartOrCloseUniteCallCmd('Unite tselect')
@@ -334,6 +338,9 @@ autocmd FileType c,cpp,proto,python,cmake,javascript,java
 " Jump to the last position when reopening a file
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
 	\ exe "normal! g'\"" | endif
+
+" Automatically enter insert mode in terminal window
+autocmd WinEnter term://* startinsert
 
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
