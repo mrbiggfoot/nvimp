@@ -10,6 +10,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'moll/vim-bbye'
 Plug 'tpope/vim-obsession'
+Plug 'Yggdroot/indentLine'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
@@ -61,6 +62,11 @@ call unite#custom#source('file,file/new,file_list,buffer', 'matchers',
 	\'matcher_fuzzy')
 call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
 	\'sorter_rank')
+
+" indentLine
+let g:indentLine_enabled = 0
+let g:indentLine_faster = 1
+let g:indentLine_color_term = 252
 
 "------------------------------------------------------------------------------
 " Projects configuration
@@ -153,6 +159,7 @@ inoremap √ <C-o>"+P
 " Alt-/ - switch to correspondent header/source file
 nnoremap ÷ :A<CR>
 inoremap ÷ <C-o>:A<CR>
+
 " Alt-Shift-/ - swich to file under cursor
 nnoremap ¿ :IH<CR>
 inoremap ¿ <C-O>:IH<CR>
@@ -238,6 +245,10 @@ let s:f3_cmd = StartOrCloseUniteCallCmd('Unite buffer')
 exec 'nnoremap <silent> <F3> ' . s:f3_cmd
 exec 'inoremap <silent> <F3> <Esc>' . s:f3_cmd
 exec 'tnoremap <silent> <F3> <C-\><C-n>' . s:f3_cmd
+
+" F4 - toggle indent guides
+nmap <F4> :IndentLinesToggle<CR>
+imap <F4> <C-o>:IndentLinesToggle<CR>
 
 " F8 - clear highlight of the last search until the next search
 nnoremap <F8> :noh<CR>
