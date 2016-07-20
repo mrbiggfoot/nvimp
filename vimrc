@@ -340,7 +340,7 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
 	\ exe "normal! g'\"" | endif
 
 " Automatically enter insert mode in terminal window
-autocmd WinEnter term://* startinsert
+autocmd BufWinEnter,WinEnter term://* startinsert
 
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
