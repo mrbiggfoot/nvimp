@@ -268,6 +268,23 @@ let g:nvimp_fzf_tags_layout = { "down":"~40%", "options":"--reverse" }
 nnoremap <S-F10> :call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
 inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
 
+" F11 - toggle default Unite window
+function! ToggleUniteWindow()
+	let unite_winnr = unite#get_unite_winnr('default')
+	if unite_winnr > 0
+		exec unite_winnr . "wincmd w"
+		let g:last_unite_view = winsaveview()
+		exec "Unite -toggle"
+	else
+		exec "UniteResume"
+		if exists("g:last_unite_view")
+			call winrestview(g:last_unite_view)
+		endif
+	endif
+endfunction
+nnoremap <F11> :call ToggleUniteWindow()<CR>
+inoremap <F11> <Esc>:call ToggleUniteWindow()<CR>
+
 " F12 - find definitions of the word under cursor
 let s:f12_cmd = StartOrCloseUniteCallCmd('Unite tselect')
 exec 'nnoremap <silent> <F12> ' . s:f12_cmd
