@@ -85,7 +85,7 @@ function! s:configure_project()
 	let cur_prj_meta_root = prj_meta_root . cur_prj_root . '/' . cur_prj_branch
 
 	if isdirectory(cur_prj_meta_root)
-		let cur_prj_ctags = cur_prj_meta_root . "/tags"
+		let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
 
 		" The following line is needed for project files opener key mapping
 		let g:cur_prj_files = cur_prj_meta_root . "/files"
@@ -93,7 +93,7 @@ function! s:configure_project()
 		" The following line specifies the IDs db path
 		let g:unite_ids_db_path = cur_prj_meta_root . "/ID"
 
-		exec "set tags=" . cur_prj_ctags . ";"
+		exec "set tags=" . g:cur_prj_ctags . ";"
 	endif
 endfunction
 
@@ -240,6 +240,27 @@ function! StartOrCloseUniteCallCmd(unite_cmd)
 	return ':call StartOrCloseUnite("' . a:unite_cmd . '")<CR>'
 endfunction
 
+" F2 - search tag
+function! SearchCmd(searcher, prompt)
+	return ':call fzf#run({"source":
+		\"tail -n +7 ' . g:cur_prj_ctags . ' \|
+		\ awk ''{ if ($1 != prev) { print $1; prev = $1 } }'' - \|
+		\ grep -v \"::\"",
+		\"sink":"' . a:searcher . '",
+		\"up":"~40%",
+		\"options":"--reverse --bind=tab:down --prompt=\"' . a:prompt . '\""})
+		\<CR>'
+endfunction
+
+let s:search_tag_cmd = SearchCmd("FT", "Tag> ")
+exec 'nnoremap <silent> <F2> ' . s:search_tag_cmd
+exec 'inoremap <silent> <F2> <Esc>' . s:search_tag_cmd
+
+" Shift-F2 - search word in the ID database (case sensitive)
+let s:search_id_cmd = SearchCmd("FWC", "Word> ")
+exec 'nnoremap <silent> <S-F2> ' . s:search_id_cmd
+exec 'inoremap <silent> <S-F2> <Esc>' . s:search_id_cmd
+
 " F3 - browse buffers
 let s:f3_cmd = StartOrCloseUniteCallCmd('Unite buffer')
 exec 'nnoremap <silent> <F3> ' . s:f3_cmd
@@ -313,6 +334,33 @@ else
 endif
 exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
 exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
+
+"------------------------------------------------------------------------------
+" Custom commands
+"------------------------------------------------------------------------------
+
+" F - find a pattern in the IDs database (case insensitive)
+command! -nargs=1 -complete=tag F :Unite id/lid:<args>:-r\ -i
+
+" FW - find an exact word in the IDs database (case insensitive)
+command! -nargs=1 -complete=tag FW :Unite id/lid:<args>:-w\ -i
+
+" FC - find a pattern in the IDs database (case sensitive)
+command! -nargs=1 -complete=tag FC :Unite id/lid:<args>:-r
+
+" FWC - find an exact word in the IDs database (case sensitive)
+command! -nargs=1 -complete=tag FWC :Unite id/lid:<args>:-w
+" ...and alias:
+command! -nargs=1 -complete=tag FCW :Unite id/lid:<args>:-w
+
+" FT - find an exact word in the tags database (case insensitive)
+command! -nargs=1 -complete=tag FT :Unite tselect:^<args>$
+
+" FTE - match an expression in the tags database
+command! -nargs=1 -complete=tag FTE :Unite tselect:<args>
+
+" Up - update project metadata
+command! -nargs=0 Up :call s:update_project()
 
 "------------------------------------------------------------------------------
 " Misc configuration
