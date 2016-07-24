@@ -277,6 +277,10 @@ exec 'nnoremap <silent> <F3> ' . s:f3_cmd
 exec 'inoremap <silent> <F3> <Esc>' . s:f3_cmd
 exec 'tnoremap <silent> <F3> <C-\><C-n>' . s:f3_cmd
 
+" Cmd-F3 - commands history
+nnoremap <silent> <M-F3> :History:<CR>
+inoremap <silent> <M-F3> <Esc>:History:<CR>
+
 " F4 - toggle indent guides
 nmap <F4> :IndentLinesToggle<CR>
 imap <F4> <C-o>:IndentLinesToggle<CR>
