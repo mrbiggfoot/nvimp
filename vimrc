@@ -432,6 +432,8 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
 " Automatically enter insert mode in terminal window
 autocmd BufWinEnter,WinEnter term://* startinsert
 
+set timeoutlen=1000 ttimeoutlen=0
+
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
 colorscheme my_colors_light
