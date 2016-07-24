@@ -242,6 +242,9 @@ endfunction
 
 " F2 - search tag
 function! SearchCmd(searcher, prompt)
+	if !exists('g:cur_prj_ctags')
+		return ':echo "No ctags file!"<CR>'
+	endif
 	return ':call fzf#run({"source":
 		\"tail -n +7 ' . g:cur_prj_ctags . ' \|
 		\ awk ''{ if ($1 != prev) { print $1; prev = $1 } }'' - \|
