@@ -11,6 +11,7 @@ Plug 'vim-scripts/a.vim'
 Plug 'moll/vim-bbye'
 Plug 'tpope/vim-obsession'
 Plug 'Yggdroot/indentLine'
+Plug 'neomake/neomake'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
@@ -67,6 +68,12 @@ call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
 let g:indentLine_enabled = 0
 let g:indentLine_faster = 1
 let g:indentLine_color_term = 252
+
+" neomake
+if filereadable("./.neomake_cfg.vim")
+	silent source ./.neomake_cfg.vim
+endif
+autocmd! VimLeave * let g:neomake_verbose = 0
 
 "------------------------------------------------------------------------------
 " Projects configuration
@@ -278,10 +285,10 @@ imap <F4> <C-o>:IndentLinesToggle<CR>
 nnoremap <F8> :noh<CR>
 inoremap <F8> <C-o>:noh<CR>
 
-" F9 - jump list
-let s:f9_cmd = StartOrCloseUniteCallCmd('Unite jump')
-exec 'nnoremap <silent> <F9> ' . s:f9_cmd
-exec 'inoremap <silent> <F9> <Esc>' . s:f9_cmd
+" F9 - history
+let g:history_layout = { "down":"~40%", "options":"--reverse" }
+nnoremap <silent> <F9> :call FzfWindow(g:history_layout, "History")<CR>
+inoremap <silent> <F9> <Esc>:call FzfWindow(g:history_layout, "History")<CR>
 
 " F10 - browse buffer tags
 nnoremap <F10> :BTags<CR>
