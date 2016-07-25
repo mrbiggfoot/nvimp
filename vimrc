@@ -433,6 +433,19 @@ autocmd FileType c,cpp,proto,python,cmake,javascript,java
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
 	\ exe "normal! g'\"" | endif
 
+" Highlight lines >= 80 chars and trailing whitespaces
+function! HighlightFormatting()
+  if &filetype == 'cpp' || &filetype == 'c' || &filetype == 'proto' ||
+  \ &filetype == 'python' || &filetype == 'cmake' || &filetype == 'vim' ||
+  \ &filetype == 'javascript' || &filetype == 'java'
+"    highlight OverLength ctermbg=red ctermfg=white
+"    match OverLength /\%80v.\+/
+    highlight WhiteSpaceEOL ctermbg=gray
+    2match WhiteSpaceEOL /\s\+$/
+  endif
+endfunction
+autocmd BufNewFile,BufReadPost,WinEnter * call HighlightFormatting()
+
 " Automatically enter insert mode in terminal window
 autocmd BufWinEnter,WinEnter term://* startinsert
 
