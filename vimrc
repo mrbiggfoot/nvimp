@@ -12,6 +12,7 @@ Plug 'moll/vim-bbye'
 Plug 'tpope/vim-obsession'
 Plug 'Yggdroot/indentLine'
 Plug 'neomake/neomake'
+Plug 'majutsushi/tagbar'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
@@ -68,6 +69,9 @@ call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
 let g:indentLine_enabled = 0
 let g:indentLine_faster = 1
 let g:indentLine_color_term = 252
+
+" Tagbar
+let g:tagbar_width = 80
 
 " neomake
 if filereadable("./.neomake_cfg.vim")
@@ -298,6 +302,12 @@ let g:history_layout = { "down":"~40%", "options":"--reverse" }
 nnoremap <silent> <F9> :call FzfWindow(g:history_layout, "History")<CR>
 inoremap <silent> <F9> <Esc>:call FzfWindow(g:history_layout, "History")<CR>
 
+" Cmd-F9|F10 - backward/forward jump stack navigation
+nnoremap <M-F9> <C-o>
+nnoremap <M-F10> <C-i>
+inoremap <M-F9> <C-o><C-o>
+inoremap <M-F10> <C-o><C-i>
+
 " F10 - browse buffer tags
 nnoremap <F10> :BTags<CR>
 inoremap <F10> <Esc>:BTags<CR>
@@ -324,6 +334,14 @@ endfunction
 nnoremap <F11> :call ToggleUniteWindow()<CR>
 inoremap <F11> <Esc>:call ToggleUniteWindow()<CR>
 
+" Cmd-F11 - toggle tag bar
+nnoremap <M-F11> :TagbarToggle<CR>
+inoremap <M-F11> <C-x>:TagbarToggle<CR>
+
+" Shift-F11 - open tag bar and jump to it for tag selection
+nnoremap <S-F11> :TagbarOpen fjc<CR>
+inoremap <S-F11> <Esc>:TagbarOpen fjc<CR>
+
 " F12 - find definitions of the word under cursor
 let s:f12_cmd = StartOrCloseUniteCallCmd('Unite tselect')
 exec 'nnoremap <silent> <F12> ' . s:f12_cmd
@@ -333,12 +351,6 @@ exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
 let s:s_f12_cmd = StartOrCloseUniteCallCmd('Unite id/lid:<C-r><C-w>:-w')
 exec 'nnoremap <silent> <S-F12> ' . s:s_f12_cmd
 exec 'inoremap <silent> <S-F12> <Esc>' . s:s_f12_cmd
-
-" Cmd-F9|F10 - backward/forward jump stack navigation
-nnoremap <M-F9> <C-o>
-nnoremap <M-F10> <C-i>
-inoremap <M-F9> <C-o><C-o>
-inoremap <M-F10> <C-o><C-i>
 
 " Ctrl-P - open list of files
 function! FilesCmd(file_source)
@@ -352,6 +364,11 @@ else
 endif
 exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
 exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
+
+" Status line control
+nnoremap <leader>sd :set statusline=<CR>
+nnoremap <leader>sf :set statusline=
+	\%{tagbar#currenttag('%s','-','f')}%=\ %t\ %l/%L<CR>
 
 "------------------------------------------------------------------------------
 " Custom commands
