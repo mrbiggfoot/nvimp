@@ -456,6 +456,12 @@ syntax on
 colorscheme my_colors_light
 
 " Restore the previous session, if required
-if @% == '' && filereadable("./Session.vim")
+function! RestoreSession()
 	silent source ./Session.vim
+	" The following command still does not fully work if there are split
+	" windows with different buffers. Need to figure out a better solution.
+	windo filetype detect
+endfunction
+if @% == '' && filereadable("./Session.vim")
+	autocmd VimEnter * call RestoreSession()
 endif
