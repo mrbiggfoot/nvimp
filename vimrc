@@ -197,16 +197,6 @@ nnoremap 22 :call SwapWindowWith(2)<CR>
 nnoremap 33 :call SwapWindowWith(3)<CR>
 nnoremap 44 :call SwapWindowWith(4)<CR>
 
-function! ToggleColorColumn()
-  if &colorcolumn == 0
-    set colorcolumn=80
-  else
-    set colorcolumn=0
-  endif
-endfunction
-nnoremap <F7> :call ToggleColorColumn()<CR>
-inoremap <F7> <C-o>:call ToggleColorColumn()<CR>
-
 nnoremap <leader>8 :vertical resize 90<CR>
 
 function! DupRight()
@@ -289,9 +279,20 @@ exec 'tnoremap <silent> <F3> <C-\><C-n>' . s:f3_cmd
 nnoremap <silent> <M-F3> :History:<CR>
 inoremap <silent> <M-F3> <Esc>:History:<CR>
 
-" F4 - toggle indent guides
-nmap <F4> :IndentLinesToggle<CR>
-imap <F4> <C-o>:IndentLinesToggle<CR>
+" Shift-F7 - toggle indent guides
+nmap <S-F7> :IndentLinesToggle<CR>
+imap <S-F7> <C-o>:IndentLinesToggle<CR>
+
+" F7 - toggle color column
+function! ToggleColorColumn()
+  if &colorcolumn == 0
+    set colorcolumn=80
+  else
+    set colorcolumn=0
+  endif
+endfunction
+nnoremap <F7> :call ToggleColorColumn()<CR>
+inoremap <F7> <C-o>:call ToggleColorColumn()<CR>
 
 " F8 - clear highlight of the last search until the next search
 nnoremap <F8> :noh<CR>
