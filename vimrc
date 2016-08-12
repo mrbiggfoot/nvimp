@@ -266,8 +266,14 @@ exec 'nnoremap <silent> <S-F2> ' . s:search_id_cmd
 exec 'inoremap <silent> <S-F2> <Esc>' . s:search_id_cmd
 
 " Cmd-F2 - search lines in the current buffer
-nnoremap <silent> <M-F2> :BLines<CR>
-inoremap <silent> <M-F2> <Esc>:BLines<CR>
+function! BLinesWindow()
+	exec 'let layout = { "window":"below ' .
+		\float2nr(round(winheight('%') * 0.4)) .
+		\'new" }'
+	call FzfWindow(layout, "BLines")
+endfunction
+nnoremap <silent> <M-F2> :call BLinesWindow()<CR>
+inoremap <silent> <M-F2> <Esc>:call BLinesWindow()<CR>
 
 " F3 - browse buffers
 let s:f3_cmd = StartOrCloseUniteCallCmd('Unite buffer')
