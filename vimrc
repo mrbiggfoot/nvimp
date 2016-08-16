@@ -78,6 +78,10 @@ if filereadable("./.neomake_cfg.vim")
 	silent source ./.neomake_cfg.vim
 endif
 autocmd! VimLeave * let g:neomake_verbose = 0
+let g:neomake_error_sign = {'text': '>>', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '**', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': '==', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign = {'text': '--', 'texthl': 'NeomakeInfoSign'}
 
 "------------------------------------------------------------------------------
 " Projects configuration
