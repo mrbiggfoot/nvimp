@@ -280,7 +280,7 @@ nnoremap <silent> <M-F2> :call BLinesWindow()<CR>
 inoremap <silent> <M-F2> <Esc>:call BLinesWindow()<CR>
 
 " F3 - browse buffers
-let s:f3_cmd = StartOrCloseUniteCallCmd('Unite buffer')
+let s:f3_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 buffer')
 exec 'nnoremap <silent> <F3> ' . s:f3_cmd
 exec 'inoremap <silent> <F3> <Esc>' . s:f3_cmd
 exec 'tnoremap <silent> <F3> <C-\><C-n>' . s:f3_cmd
@@ -354,12 +354,13 @@ nnoremap <S-F11> :TagbarOpen fjc<CR>
 inoremap <S-F11> <Esc>:TagbarOpen fjc<CR>
 
 " F12 - find definitions of the word under cursor
-let s:f12_cmd = StartOrCloseUniteCallCmd('Unite tselect')
+let s:f12_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 tselect')
 exec 'nnoremap <silent> <F12> ' . s:f12_cmd
 exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
 
 " Shift-F12 - find references to the word under cursor using lid (IDs db)
-let s:s_f12_cmd = StartOrCloseUniteCallCmd('Unite id/lid:<C-r><C-w>:-w')
+let s:s_f12_cmd = StartOrCloseUniteCallCmd(
+	\'Unite -previewheight=100 id/lid:<C-r><C-w>:-w')
 exec 'nnoremap <silent> <S-F12> ' . s:s_f12_cmd
 exec 'inoremap <silent> <S-F12> <Esc>' . s:s_f12_cmd
 
@@ -386,24 +387,26 @@ nnoremap <leader>sf :set statusline=
 "------------------------------------------------------------------------------
 
 " F - find a pattern in the IDs database (case insensitive)
-command! -nargs=1 -complete=tag F :Unite id/lid:<args>:-r\ -i
+command! -nargs=1 -complete=tag F :Unite -previewheight=100
+	\ id/lid:<args>:-r\ -i
 
 " FW - find an exact word in the IDs database (case insensitive)
-command! -nargs=1 -complete=tag FW :Unite id/lid:<args>:-w\ -i
+command! -nargs=1 -complete=tag FW :Unite -previewheight=100
+	\ id/lid:<args>:-w\ -i
 
 " FC - find a pattern in the IDs database (case sensitive)
-command! -nargs=1 -complete=tag FC :Unite id/lid:<args>:-r
+command! -nargs=1 -complete=tag FC :Unite -previewheight=100 id/lid:<args>:-r
 
 " FWC - find an exact word in the IDs database (case sensitive)
-command! -nargs=1 -complete=tag FWC :Unite id/lid:<args>:-w
+command! -nargs=1 -complete=tag FWC :Unite -previewheight=100 id/lid:<args>:-w
 " ...and alias:
-command! -nargs=1 -complete=tag FCW :Unite id/lid:<args>:-w
+command! -nargs=1 -complete=tag FCW :Unite -previewheight=100 id/lid:<args>:-w
 
 " FT - find an exact word in the tags database (case insensitive)
-command! -nargs=1 -complete=tag FT :Unite tselect:^<args>$
+command! -nargs=1 -complete=tag FT :Unite -previewheight=100 tselect:^<args>$
 
 " FTE - match an expression in the tags database
-command! -nargs=1 -complete=tag FTE :Unite tselect:<args>
+command! -nargs=1 -complete=tag FTE :Unite -previewheight=100 tselect:<args>
 
 " Up - update project metadata
 command! -nargs=0 Up :call s:update_project()
