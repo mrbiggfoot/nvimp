@@ -140,9 +140,9 @@
 		<key>0xf702-0x300000</key>
 		<dict>
 			<key>Action</key>
-			<integer>2</integer>
+			<integer>10</integer>
 			<key>Text</key>
-			<string></string>
+			<string>[1~</string>
 		</dict>
 		<key>0xf702-0x320000</key>
 		<dict>
@@ -161,9 +161,9 @@
 		<key>0xf703-0x300000</key>
 		<dict>
 			<key>Action</key>
-			<integer>0</integer>
+			<integer>10</integer>
 			<key>Text</key>
-			<string></string>
+			<string>[4~</string>
 		</dict>
 		<key>0xf703-0x320000</key>
 		<dict>
@@ -334,11 +334,11 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>330 306 620 392 0 0 1280 777 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>172 263 796 473 0 0 1280 777 </string>
+	<string>172 287 796 473 0 0 1280 777 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 25 1277 752 0 0 1280 777 </string>
+	<string>0 4 1277 773 0 0 1280 777 </string>
 	<key>NeverWarnAboutShortLivedSessions_5D83C620-F48E-42D8-A0B1-580D288D4BCC</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_A0C1A6E8-70A5-420B-8DF6-3CCE091B2E71</key>
