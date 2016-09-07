@@ -102,19 +102,33 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0xf700-0x280000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[1;5A</string>
+		</dict>
 		<key>0xf700-0x300000</key>
 		<dict>
 			<key>Action</key>
-			<integer>7</integer>
+			<integer>10</integer>
 			<key>Text</key>
-			<string></string>
+			<string>[5~</string>
+		</dict>
+		<key>0xf701-0x280000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[1;5B</string>
 		</dict>
 		<key>0xf701-0x300000</key>
 		<dict>
 			<key>Action</key>
-			<integer>6</integer>
+			<integer>10</integer>
 			<key>Text</key>
-			<string></string>
+			<string>[6~</string>
 		</dict>
 		<key>0xf702-0x280000</key>
 		<dict>
@@ -240,7 +254,7 @@
 	<key>MaxVertically</key>
 	<false/>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/apyatkov/nvimp/iterm2_cfg</string>
+	<string>~/apyatkov</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 459}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -278,9 +292,11 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>330 306 620 392 0 0 1280 777 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>269 122 796 473 0 0 1280 777 </string>
+	<string>172 223 796 473 0 0 1280 777 </string>
+	<key>NSWindow Frame UKCrashReporter</key>
+	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>131 73 570 452 0 0 1280 777 </string>
+	<string>0 396 570 377 0 0 1280 777 </string>
 	<key>NeverWarnAboutShortLivedSessions_5D83C620-F48E-42D8-A0B1-580D288D4BCC</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_A0C1A6E8-70A5-420B-8DF6-3CCE091B2E71</key>
@@ -621,13 +637,6 @@
 					<key>Text</key>
 					<string>[1;6A</string>
 				</dict>
-				<key>0xf700-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x41</string>
-				</dict>
 				<key>0xf701-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -648,13 +657,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6B</string>
-				</dict>
-				<key>0xf701-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x42</string>
 				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
@@ -677,13 +679,6 @@
 					<key>Text</key>
 					<string>[1;6D</string>
 				</dict>
-				<key>0xf702-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x44</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -704,13 +699,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6C</string>
-				</dict>
-				<key>0xf703-0x280000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x43</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -1325,20 +1313,6 @@
 					<key>Text</key>
 					<string>0x7f</string>
 				</dict>
-				<key>0x5b-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x02</string>
-				</dict>
-				<key>0x5d-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x0e</string>
-				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1359,13 +1333,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6A</string>
-				</dict>
-				<key>0xf700-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[5~</string>
 				</dict>
 				<key>0xf701-0x220000</key>
 				<dict>
@@ -1388,13 +1355,6 @@
 					<key>Text</key>
 					<string>[1;6B</string>
 				</dict>
-				<key>0xf701-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[6~</string>
-				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1416,13 +1376,6 @@
 					<key>Text</key>
 					<string>[1;6D</string>
 				</dict>
-				<key>0xf702-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[1~</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1443,13 +1396,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6C</string>
-				</dict>
-				<key>0xf703-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[4~</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -1507,26 +1453,12 @@
 					<key>Text</key>
 					<string>[19;2~</string>
 				</dict>
-				<key>0xf70c-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[20;3~</string>
-				</dict>
 				<key>0xf70c-0x20000</key>
 				<dict>
 					<key>Action</key>
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[20;2~</string>
-				</dict>
-				<key>0xf70d-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[21;3~</string>
 				</dict>
 				<key>0xf70d-0x20000</key>
 				<dict>
@@ -1548,13 +1480,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[24;2~</string>
-				</dict>
-				<key>0xf70f-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[24;4~</string>
 				</dict>
 				<key>0xf729-0x20000</key>
 				<dict>
@@ -2085,20 +2010,6 @@
 					<key>Text</key>
 					<string>0x7f</string>
 				</dict>
-				<key>0x5b-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x02</string>
-				</dict>
-				<key>0x5d-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x0e</string>
-				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -2119,13 +2030,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6A</string>
-				</dict>
-				<key>0xf700-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[5~</string>
 				</dict>
 				<key>0xf701-0x220000</key>
 				<dict>
@@ -2148,13 +2052,6 @@
 					<key>Text</key>
 					<string>[1;6B</string>
 				</dict>
-				<key>0xf701-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[6~</string>
-				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -2176,13 +2073,6 @@
 					<key>Text</key>
 					<string>[1;6D</string>
 				</dict>
-				<key>0xf702-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[1~</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -2203,13 +2093,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[1;6C</string>
-				</dict>
-				<key>0xf703-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[4~</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -2267,26 +2150,12 @@
 					<key>Text</key>
 					<string>[19;2~</string>
 				</dict>
-				<key>0xf70c-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[20;3~</string>
-				</dict>
 				<key>0xf70c-0x20000</key>
 				<dict>
 					<key>Action</key>
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[20;2~</string>
-				</dict>
-				<key>0xf70d-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[21;3~</string>
 				</dict>
 				<key>0xf70d-0x20000</key>
 				<dict>
@@ -2308,13 +2177,6 @@
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[24;2~</string>
-				</dict>
-				<key>0xf70f-0x80000</key>
-				<dict>
-					<key>Action</key>
-					<integer>10</integer>
-					<key>Text</key>
-					<string>[24;4~</string>
 				</dict>
 				<key>0xf729-0x20000</key>
 				<dict>
@@ -2632,6 +2494,8 @@
 	<integer>10</integer>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
+	<key>UKCrashReporterLastCrashReportDate</key>
+	<real>1473279616</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
