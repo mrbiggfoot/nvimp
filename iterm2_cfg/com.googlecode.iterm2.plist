@@ -172,6 +172,48 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0xf705-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[1;3Q</string>
+		</dict>
+		<key>0xf706-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[1;3R</string>
+		</dict>
+		<key>0xf70c-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[20;3~</string>
+		</dict>
+		<key>0xf70d-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[21;3~</string>
+		</dict>
+		<key>0xf70e-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[23;3~</string>
+		</dict>
+		<key>0xf70f-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>10</integer>
+			<key>Text</key>
+			<string>[24;3~</string>
+		</dict>
 		<key>0xf729-0x100000</key>
 		<dict>
 			<key>Action</key>
@@ -292,11 +334,11 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>330 306 620 392 0 0 1280 777 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>172 223 796 473 0 0 1280 777 </string>
+	<string>172 263 796 473 0 0 1280 777 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 396 570 377 0 0 1280 777 </string>
+	<string>0 25 1277 752 0 0 1280 777 </string>
 	<key>NeverWarnAboutShortLivedSessions_5D83C620-F48E-42D8-A0B1-580D288D4BCC</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_A0C1A6E8-70A5-420B-8DF6-3CCE091B2E71</key>
