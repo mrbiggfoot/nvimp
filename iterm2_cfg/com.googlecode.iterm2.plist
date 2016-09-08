@@ -295,10 +295,12 @@
 	<true/>
 	<key>MaxVertically</key>
 	<false/>
+	<key>NSColorPanelMode</key>
+	<string>6</string>
+	<key>NSColorPickerSlidersDefaults</key>
+	<string>1</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/apyatkov</string>
-	<key>NSNavPanelExpandedSizeForOpenMode</key>
-	<string>{712, 459}</string>
+	<string>~/nvimp/iterm2_cfg</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -324,21 +326,33 @@
 	<array/>
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
-	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
+	<key>NSToolbar Configuration Terminal Toolbar</key>
 	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
 		<key>TB Is Shown</key>
+		<integer>0</integer>
+		<key>TB Size Mode</key>
 		<integer>1</integer>
 	</dict>
+	<key>NSWindow Frame NSColorPanel</key>
+	<string>268 229 214 309 0 0 1280 778 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>269 158 606 456 0 0 1280 777 </string>
+	<string>258 407 606 456 0 0 1280 778 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>330 306 620 392 0 0 1280 777 </string>
+	<string>330 290 620 392 0 0 1280 778 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>333 135 796 473 0 0 1280 777 </string>
+	<string>269 122 796 473 0 0 1280 778 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
-	<string>80 193 592 584 0 0 1280 777 </string>
+	<string>80 194 592 584 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 4 1277 773 0 0 1280 777 </string>
+	<string>0 9 1277 769 0 0 1280 778 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>-1920 -389 1913 1167 -1920 -400 1920 1178 </string>
+	<key>NSWindow Frame iTerm Window 2</key>
+	<string>393 221 665 401 0 0 1280 778 </string>
 	<key>NeverWarnAboutShortLivedSessions_5D83C620-F48E-42D8-A0B1-580D288D4BCC</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_A0C1A6E8-70A5-420B-8DF6-3CCE091B2E71</key>
@@ -2413,6 +2427,8 @@
 			<array/>
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
+			<key>Thin Strokes</key>
+			<integer>0</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Triggers</key>
@@ -2437,14 +2453,24 @@
 			<string>/Users/andrewpyatkov</string>
 		</dict>
 	</array>
-	<key>NoSyncInstallationId</key>
-	<string>63303908-119C-440D-BF42-B0D535244531</string>
-	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<key>NoSyncConfirmBeta</key>
 	<true/>
-	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
-	<integer>1</integer>
-	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>494963840.87823302</real>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
+	<integer>0</integer>
+	<key>NoSyncHaveShownPromoWithId_4</key>
+	<true/>
+	<key>NoSyncHaveWarnedAboutIncompatibleSoftware</key>
+	<true/>
+	<key>NoSyncInstallationId</key>
+	<string>9C671DB9-9762-4756-9EB5-76E000F31DDF</string>
+	<key>NoSyncNeverAskAboutSettingAlternateMouseScroll</key>
+	<true/>
+	<key>NoSyncTimeOfLastPromo</key>
+	<real>477524838.70181</real>
+	<key>NoSyncTimeOfLastPromoDownload</key>
+	<real>486454549.39064002</real>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -2493,7 +2519,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/it-loaner-106/apyatkov/nvimp/iterm2_cfg</string>
+	<string>/Users/andrewpyatkov/nvimp/iterm2_cfg</string>
 	<key>PromptOnQuit</key>
 	<true/>
 	<key>QuitWhenAllWindowsClosed</key>
@@ -2507,13 +2533,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml?shard=65</string>
+	<string>https://iterm2.com/appcasts/testing.xml?shard=31</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-07T17:57:28Z</date>
-	<key>SUSendProfileInfo</key>
-	<false/>
+	<date>2016-09-08T23:33:16Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2537,7 +2561,7 @@
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
 	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1473279616</real>
+	<real>1471040512</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
