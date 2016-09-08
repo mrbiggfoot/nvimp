@@ -135,7 +135,7 @@
 			<key>Action</key>
 			<integer>10</integer>
 			<key>Text</key>
-			<string>b</string>
+			<string>[1;5D</string>
 		</dict>
 		<key>0xf702-0x300000</key>
 		<dict>
@@ -156,7 +156,7 @@
 			<key>Action</key>
 			<integer>10</integer>
 			<key>Text</key>
-			<string>f</string>
+			<string>[1;5C</string>
 		</dict>
 		<key>0xf703-0x300000</key>
 		<dict>
@@ -334,7 +334,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>330 306 620 392 0 0 1280 777 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>172 287 796 473 0 0 1280 777 </string>
+	<string>333 135 796 473 0 0 1280 777 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
