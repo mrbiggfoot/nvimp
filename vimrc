@@ -274,7 +274,8 @@ function! BLinesWindow()
 	exec 'let layout = { "window":"below ' .
 		\float2nr(round(winheight('%') * 0.4)) .
 		\'new" }'
-	call FzfWindow(layout, "BLines")
+	call FzfWindow(layout, 'call fzf#vim#buffer_lines("",
+		\ { "options": "--bind=tab:down" })')
 endfunction
 nnoremap <silent> <M-F2> :call BLinesWindow()<CR>
 inoremap <silent> <M-F2> <Esc>:call BLinesWindow()<CR>
@@ -320,8 +321,10 @@ inoremap <M-F9> <C-o><C-o>
 inoremap <M-F10> <C-o><C-i>
 
 " F10 - browse buffer tags
-nnoremap <F10> :BTags<CR>
-inoremap <F10> <Esc>:BTags<CR>
+nnoremap <F10> :call fzf#vim#buffer_tags('',
+	\ { 'options': '--bind=tab:down' })<CR>
+inoremap <F10> <Esc>:call fzf#vim#buffer_tags('',
+	\ { 'options': '--bind=tab:down' })<CR>
 
 " Shift-F10 - browse all tags
 let g:nvimp_fzf_tags_layout = { "down":"~40%", "options":"--reverse" }
