@@ -245,6 +245,22 @@ function! StartOrCloseUniteCallCmd(unite_cmd)
 	return ':call StartOrCloseUnite("' . a:unite_cmd . '")<CR>'
 endfunction
 
+" F1 - toggle location window
+function! ToggleLocationWindow()
+	let l:cur_wnd = winnr()
+	let l:last_winnr = winnr('$')
+	lclose
+	if l:last_winnr == winnr('$')
+		" No local location window has been closed
+		"windo if &buftype == "quickfix" || &buftype == "locationlist"
+		"	\ | lclose | endif
+		"exec l:cur_wnd . "wincmd w"
+		botright lopen
+	endif
+endfunction
+nnoremap <silent> <F1> :call ToggleLocationWindow()<CR>
+inoremap <silent> <F1> <Esc>:call ToggleLocationWindow()<CR>
+
 " F2 - search tag
 function! SearchCmd(searcher, prompt)
 	if !exists('g:cur_prj_ctags')
