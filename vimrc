@@ -289,7 +289,7 @@ function! SearchCmd(searcher, prompt)
 		\ awk ''{ if ($1 != prev) { print $1; prev = $1 } }'' - \|
 		\ grep -v \"::\"",
 		\"sink":"' . a:searcher . '",
-		\"up":"~40%",
+		\"window":"aboveleft new",
 		\"options":"--reverse --bind=tab:down --prompt=\"' . a:prompt . '\""})
 		\<CR>'
 endfunction
