@@ -204,18 +204,36 @@ nnoremap 44 :call SwapWindowWith(4)<CR>
 nnoremap <leader>8 :vertical resize 90<CR>
 
 function! DupRight()
-  let l:cur_wnd = winnr()
-  let l:cur_view = winsaveview()
-  let l:cur_buf = bufnr('%')
-  exec "wincmd l"
-  if winnr() == l:cur_wnd
-    exec "wincmd v"
-    exec "wincmd l"
-  endif
-  exec "b " . l:cur_buf
-  call winrestview(l:cur_view)
+	let l:cur_wnd = winnr()
+	let l:cur_view = winsaveview()
+	let l:cur_buf = bufnr('%')
+	exec "wincmd l"
+	if winnr() == l:cur_wnd
+		exec "wincmd v"
+		exec "wincmd l"
+	endif
+	exec "b " . l:cur_buf
+	call winrestview(l:cur_view)
 endfunction
 nnoremap <Bar> :call DupRight()<CR>
+
+function! DupLeft()
+	let l:cur_wnd = winnr()
+	let l:cur_view = winsaveview()
+	let l:cur_buf = bufnr('%')
+	exec "wincmd h"
+	if winnr() == l:cur_wnd
+		exec "wincmd v"
+		exec "wincmd l"
+		exec "b " . l:cur_buf
+		call winrestview(l:cur_view)
+		exec "wincmd h"
+	else
+		exec "b " . l:cur_buf
+		call winrestview(l:cur_view)
+	endif
+endfunction
+nnoremap » :call DupLeft()<CR>
 
 " Open a fzf.vim window with the specified layout.
 function! FzfWindow(layout, fzf_cmd)
