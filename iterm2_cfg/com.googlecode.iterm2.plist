@@ -350,15 +350,15 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>330 289 620 392 0 0 1280 777 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1905 -84 796 473 1280 -280 1920 1057 </string>
+	<string>269 122 796 473 0 0 1280 777 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 194 592 584 0 0 1280 778 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>0 15 1278 762 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>3 4 1273 768 0 0 1280 777 </string>
+	<string>0 9 1273 768 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>393 221 665 401 0 0 1280 778 </string>
+	<string>393 234 585 377 0 0 1280 777 </string>
 	<key>NeverWarnAboutShortLivedSessions_5D83C620-F48E-42D8-A0B1-580D288D4BCC</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_A0C1A6E8-70A5-420B-8DF6-3CCE091B2E71</key>
@@ -2559,13 +2559,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-10-31T22:23:35Z</date>
+	<date>2017-03-10T20:30:51Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>
@@ -2609,6 +2609,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.12</string>
+	<string>3.0.15</string>
 </dict>
 </plist>
