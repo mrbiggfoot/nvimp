@@ -236,9 +236,14 @@ endfunction
 nnoremap » :call DupLeft()<CR>
 
 " Open a fzf.vim window with the specified layout.
-function! FzfWindow(layout, fzf_cmd)
+function! FzfWindow(layout, fzf_cmd, reverse)
 	if exists("g:fzf_layout")
 		let l:saved_layout = g:fzf_layout
+	endif
+	if a:reverse != 0
+		let $FZF_DEFAULT_OPTS = '--reverse'
+	else
+		let $FZF_DEFAULT_OPTS = ''
 	endif
 	let g:fzf_layout = a:layout
 	exec a:fzf_cmd
@@ -309,7 +314,7 @@ function! BLinesWindow()
 		\float2nr(round(winheight('%') * 0.4)) .
 		\'new" }'
 	call FzfWindow(layout, 'call fzf#vim#buffer_lines("",
-		\ { "options": "--bind=tab:down" })')
+		\ { "options": "--bind=tab:down" })', 0)
 endfunction
 nnoremap <silent> <M-F2> :call BLinesWindow()<CR>
 inoremap <silent> <M-F2> <Esc>:call BLinesWindow()<CR>
@@ -344,9 +349,9 @@ nnoremap <F8> :noh<CR>
 inoremap <F8> <C-o>:noh<CR>
 
 " F9 - history
-let g:history_layout = { "down":"~40%", "options":"--reverse" }
-nnoremap <silent> <F9> :call FzfWindow(g:history_layout, "History")<CR>
-inoremap <silent> <F9> <Esc>:call FzfWindow(g:history_layout, "History")<CR>
+let g:history_layout = { "down":"~40%" }
+nnoremap <silent> <F9> :call FzfWindow(g:history_layout, "History", 1)<CR>
+inoremap <silent> <F9> <Esc>:call FzfWindow(g:history_layout, "History", 1)<CR>
 
 " Cmd-F9|F10 - backward/forward jump stack navigation
 nnoremap <M-F9> <C-o>
@@ -361,9 +366,9 @@ inoremap <F10> <Esc>:call fzf#vim#buffer_tags('',
 	\ { 'options': '--bind=tab:down' })<CR>
 
 " Shift-F10 - browse all tags
-let g:nvimp_fzf_tags_layout = { "down":"~40%", "options":"--reverse" }
-nnoremap <S-F10> :call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
-inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags")<CR>
+let g:nvimp_fzf_tags_layout = { "down":"~40%" }
+nnoremap <S-F10> :call FzfWindow(g:nvimp_fzf_tags_layout, "Tags", 1)<CR>
+inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags", 1)<CR>
 
 " F11 - toggle default Unite window
 function! ToggleUniteWindow()
