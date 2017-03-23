@@ -21,7 +21,7 @@ let g:neomake_cpp_clang_maker = {
 \ '-D__STDC_FORMAT_MACROS',
 \ '-DARENA_LSAN_LEVEL=1',
 \ '-Wno-invalid-offsetof',
-\ '-std=c++11',
+\ '-std=c++14',
 \ '-gcc-toolchain',
 \ '/opt/rh/devtoolset-3/root/usr',
 \ '-B',
