@@ -36,6 +36,7 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+autocmd VimEnter * call deoplete#initialize()
 
 " Unite
 call unite#custom#profile('default', 'context', {
