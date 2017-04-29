@@ -36,6 +36,8 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" the cache size should be > tags file size
+let g:deoplete#tag#cache_limit_size = 200000000
 autocmd VimEnter * call deoplete#initialize()
 
 " Unite
