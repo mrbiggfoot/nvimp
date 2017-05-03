@@ -20,11 +20,7 @@ Plug 'mrbiggfoot/unite-tselect2'
 Plug 'mrbiggfoot/unite-id'
 
 Plug 'Shougo/unite.vim'
-
-function! DoRemote(arg)
-	UpdateRemotePlugins
-endfunction
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 call plug#end()
 
