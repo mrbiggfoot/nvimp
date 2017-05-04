@@ -100,6 +100,7 @@ function! s:configure_project()
 
 	if isdirectory(cur_prj_meta_root)
 		let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
+		let g:cur_prj_completions = cur_prj_meta_root . "/completions"
 
 		" The following line is needed for project files opener key mapping
 		let g:cur_prj_files = cur_prj_meta_root . "/files"
@@ -288,10 +289,7 @@ function! SearchCmd(searcher, prompt)
 	if !exists('g:cur_prj_ctags')
 		return ':echo "No ctags file!"<CR>'
 	endif
-	return ':call fzf#run({"source":
-		\"tail -n +7 ' . g:cur_prj_ctags . ' \|
-		\ awk ''{ if ($1 != prev) { print $1; prev = $1 } }'' - \|
-		\ grep -v \"::\"",
+	return ':call fzf#run({"source":"cat ' . g:cur_prj_completions . '",
 		\"sink":"' . a:searcher . '",
 		\"window":"aboveleft new",
 		\"options":"--reverse --bind=tab:down --prompt=\"' . a:prompt . '\""})
