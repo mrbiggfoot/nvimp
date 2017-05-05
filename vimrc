@@ -18,6 +18,7 @@ Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
 Plug 'mrbiggfoot/unite-tselect2'
 Plug 'mrbiggfoot/unite-id'
+Plug 'mrbiggfoot/deoplete-filesrc'
 
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -32,8 +33,13 @@ call plug#end()
 let g:deoplete#enable_at_startup = 1
 " deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" the cache size should be > tags file size
-let g:deoplete#tag#cache_limit_size = 200000000
+" The cache size should be > tags file size for 'tags' source to work
+"let g:deoplete#tag#cache_limit_size = 200000000
+
+let g:deoplete#sources = {}
+let g:deoplete#sources.cpp = ['buffer', 'member', 'file', 'omni', 'dictionary',
+\	'around', 'filesrc']
+
 autocmd VimEnter * call deoplete#initialize()
 
 " Unite
@@ -101,6 +107,7 @@ function! s:configure_project()
 	if isdirectory(cur_prj_meta_root)
 		let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
 		let g:cur_prj_completions = cur_prj_meta_root . "/completions"
+		let g:deoplete#filesrc#path = g:cur_prj_completions
 
 		" The following line is needed for project files opener key mapping
 		let g:cur_prj_files = cur_prj_meta_root . "/files"
