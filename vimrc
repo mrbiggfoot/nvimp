@@ -37,9 +37,10 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 "let g:deoplete#tag#cache_limit_size = 200000000
 
 let g:deoplete#sources = {}
-let g:deoplete#sources.cpp = ['buffer', 'member', 'file', 'omni', 'dictionary',
-\	'around', 'filesrc']
-
+let g:deoplete#sources.cpp = ['buffer', 'member', 'file', 'around', 'filesrc']
+let g:deoplete#ignore_sources = {}
+let g:deoplete#ignore_sources._ = ['filesrc']
+let g:deoplete#ignore_sources.cpp = []
 autocmd VimEnter * call deoplete#initialize()
 
 " Unite
