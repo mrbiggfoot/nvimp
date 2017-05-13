@@ -1,5 +1,5 @@
 " Neomake execution configuration.
-autocmd BufWritePost,BufReadPost *.cc,*.h Neomake
+autocmd BufWritePost,BufReadPost *.cc,*.h call StartNeomakeJob()
 
 " Project-specific neomake configuration.
 let g:neomake_cpp_enabled_makers = ['clang']

@@ -12,7 +12,6 @@ Plug 'moll/vim-bbye'
 Plug 'tpope/vim-obsession'
 Plug 'Yggdroot/indentLine'
 Plug 'neomake/neomake'
-Plug 'majutsushi/tagbar'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
@@ -76,9 +75,6 @@ let g:indentLine_enabled = 0
 let g:indentLine_faster = 1
 let g:indentLine_color_term = 252
 
-" Tagbar
-let g:tagbar_width = 80
-
 " neomake
 if filereadable("./.neomake_cfg.vim")
 	silent source ./.neomake_cfg.vim
@@ -88,6 +84,34 @@ let g:neomake_error_sign = {'text': '>>', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '**', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_message_sign = {'text': '==', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign = {'text': '--', 'texthl': 'NeomakeInfoSign'}
+
+let g:bufnr_to_num_jobs = {}
+
+function! StartNeomakeJob()
+	let g:bufnr_to_num_jobs[bufnr('%')] = 1
+	" update the status line
+	redraw!
+	silent exec 'Neomake'
+endfunction
+
+function! FinishNeomakeJob()
+	if g:neomake_hook_context.jobinfo.file_mode != 1
+		return
+	endif
+	let l:buf = g:neomake_hook_context.jobinfo.bufnr
+	if has_key(g:bufnr_to_num_jobs, l:buf)
+		unlet g:bufnr_to_num_jobs[l:buf]
+		" update the status line
+		redraw!
+	else
+		echoerr "No key " . l:buf . " in g:bufnr_to_num_jobs!"
+	endif
+endfunction
+
+augroup neomake_hooks
+	au!
+	autocmd User NeomakeJobFinished call FinishNeomakeJob()
+augroup END
 
 "------------------------------------------------------------------------------
 " Projects configuration
@@ -392,14 +416,6 @@ endfunction
 nnoremap <F11> :call ToggleUniteWindow()<CR>
 inoremap <F11> <Esc>:call ToggleUniteWindow()<CR>
 
-" Cmd-F11 - toggle tag bar
-nnoremap <M-F11> :TagbarToggle<CR>
-inoremap <M-F11> <C-x>:TagbarToggle<CR>
-
-" Shift-F11 - open tag bar and jump to it for tag selection
-nnoremap <S-F11> :TagbarOpen fjc<CR>
-inoremap <S-F11> <Esc>:TagbarOpen fjc<CR>
-
 " F12 - find definitions of the word under cursor
 let s:f12_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 tselect')
 exec 'nnoremap <silent> <F12> ' . s:f12_cmd
@@ -424,10 +440,15 @@ endif
 exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
 exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
 
-" Status line control
-nnoremap <leader>sd :set statusline=<CR>
-nnoremap <leader>sf :set statusline=
-	\%{tagbar#currenttag('%s','-','f')}%=\ %t\ %l/%L<CR>
+" Status line
+function! BufNeomakeStat()
+	if has_key(g:bufnr_to_num_jobs, bufnr('%'))
+		return '@ '
+	endif
+	return ''
+endfunction
+
+set statusline=%{BufNeomakeStat()}%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 "------------------------------------------------------------------------------
 " Custom commands
