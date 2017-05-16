@@ -89,8 +89,7 @@ let g:bufnr_to_num_jobs = {}
 
 function! StartNeomakeJob()
 	let g:bufnr_to_num_jobs[bufnr('%')] = 1
-	" update the status line
-	redraw!
+	redrawstatus!
 	silent exec 'Neomake'
 endfunction
 
@@ -101,8 +100,7 @@ function! FinishNeomakeJob()
 	let l:buf = g:neomake_hook_context.jobinfo.bufnr
 	if has_key(g:bufnr_to_num_jobs, l:buf)
 		unlet g:bufnr_to_num_jobs[l:buf]
-		" update the status line
-		redraw!
+		redrawstatus!
 	else
 		echoerr "No key " . l:buf . " in g:bufnr_to_num_jobs!"
 	endif
