@@ -271,9 +271,9 @@ function! FzfWindow(layout, fzf_cmd, reverse)
 		let l:saved_layout = g:fzf_layout
 	endif
 	if a:reverse != 0
-		let $FZF_DEFAULT_OPTS = '--reverse'
+		let $FZF_DEFAULT_OPTS = '--reverse --bind=tab:down'
 	else
-		let $FZF_DEFAULT_OPTS = ''
+		let $FZF_DEFAULT_OPTS = '--bind=tab:down'
 	endif
 	let g:fzf_layout = a:layout
 	exec a:fzf_cmd
