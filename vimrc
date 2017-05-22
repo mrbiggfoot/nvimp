@@ -438,16 +438,6 @@ endif
 exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
 exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
 
-" Status line
-function! BufNeomakeStat()
-	if has_key(g:bufnr_to_num_jobs, bufnr('%'))
-		return '@ '
-	endif
-	return ''
-endfunction
-
-set statusline=%{BufNeomakeStat()}%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-
 "------------------------------------------------------------------------------
 " Custom commands
 "------------------------------------------------------------------------------
@@ -551,6 +541,18 @@ set timeoutlen=1000 ttimeoutlen=0
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
 colorscheme my_colors_light
+
+" Status line
+function! BufNeomakeStat()
+	if has_key(g:bufnr_to_num_jobs, bufnr('%'))
+		return '@ '
+	endif
+	return ''
+endfunction
+
+highlight BufNeomakeStat ctermfg=LightBlue ctermbg=Black cterm=bold
+set statusline=%#BufNeomakeStat#%{BufNeomakeStat()}
+	\%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 " Restore the previous session, if required
 function! RestoreSession()
