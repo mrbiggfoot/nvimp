@@ -4,7 +4,7 @@ autocmd BufWritePost,BufReadPost *.cc,*.h call StartNeomakeJob()
 " Project-specific neomake configuration.
 let g:neomake_cpp_enabled_makers = ['clang']
 let g:neomake_cpp_clang_maker = {
-\ 'exe' : '/opt/clang-3.8/usr/bin/clang++',
+\ 'exe' : '/opt/cross/clang-3.8.1/bin/clang++',
 \ 'args' : [
 \ '-fsyntax-only',
 \ '-fvisibility-inlines-hidden',
@@ -23,23 +23,22 @@ let g:neomake_cpp_clang_maker = {
 \ '-Wno-invalid-offsetof',
 \ '-std=c++14',
 \ '-gcc-toolchain',
-\ '/opt/rh/devtoolset-3/root/usr',
+\ '/opt/cross/el7.3-x86_64/gcc-4.9.4',
 \ '-B',
-\ '/opt/rh/devtoolset-3/root/usr/bin',
+\ '/opt/cross/el7.3-x86_64/gcc-4.9.4/bin',
+\ '-target',
+\ 'x86_64-redhat-linux',
+\ '--sysroot',
+\ '/opt/cross/el7.3-x86_64/sysroot',
 \ '-Qunused-arguments',
 \ '-Wno-deprecated-register',
 \ '-Wno-unused-local-typedef',
+\ '-ftemplate-depth=512',
 \ '-isystem',
-\ '/opt/rh/devtoolset-3/root/usr/include/c++/4.9.2',
+\ '/home/andrew/projects/main/build',
 \ '-isystem',
-\ '/opt/rh/devtoolset-3/root/usr/include/c++/4.9.2/x86_64-redhat-linux',
-\ '-isystem',
-\ '/opt/rh/devtoolset-3/root/usr/include/c++/4.9.2/backward',
-\ '-isystem',
-\ '/home/apyatkov/projects/main/build',
-\ '-isystem',
-\ '/home/apyatkov/projects/main/build/toolchain/include',
+\ '/home/andrew/projects/main/build/toolchain/include',
 \ '-I',
-\ '/home/apyatkov/projects/main'
+\ '/home/andrew/projects/main'
 \ ]
 \ }
