@@ -40,7 +40,7 @@ let g:deoplete#sources.cpp = ['buffer', 'member', 'file', 'around', 'filesrc']
 let g:deoplete#ignore_sources = {}
 let g:deoplete#ignore_sources._ = ['filesrc']
 let g:deoplete#ignore_sources.cpp = []
-autocmd VimEnter * call deoplete#initialize()
+"autocmd VimEnter * call deoplete#initialize()
 
 " Unite
 call unite#custom#profile('default', 'context', {
