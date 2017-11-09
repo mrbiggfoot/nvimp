@@ -537,7 +537,10 @@ endfunction
 autocmd BufNewFile,BufReadPost,WinEnter * call HighlightFormatting()
 
 " Automatically enter insert mode in terminal window
-autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
+
+" No line numbers in terminal window
+autocmd TermOpen * setlocal nonumber norelativenumber
 
 set timeoutlen=1000 ttimeoutlen=0
 
