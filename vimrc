@@ -12,6 +12,7 @@ Plug 'moll/vim-bbye'
 Plug 'tpope/vim-obsession'
 Plug 'Yggdroot/indentLine'
 Plug 'neomake/neomake'
+Plug 'vim-python/python-syntax'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
@@ -110,6 +111,10 @@ augroup neomake_hooks
 	au!
 	autocmd User NeomakeJobFinished call FinishNeomakeJob()
 augroup END
+
+" python-syntax
+let g:python_version_2 = 1
+let g:python_highlight_all = 1
 
 "------------------------------------------------------------------------------
 " Projects configuration
