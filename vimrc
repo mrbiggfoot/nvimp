@@ -361,6 +361,9 @@ exec 'tnoremap <silent> <F3> <C-\><C-n>' . s:f3_cmd
 nnoremap <silent> <M-F3> :History:<CR>
 inoremap <silent> <M-F3> <Esc>:History:<CR>
 
+" F4 - toggle paste mode
+set pastetoggle=<F4>
+
 " Shift-F7 - toggle indent guides
 nmap <S-F7> :IndentLinesToggle<CR>
 imap <S-F7> <C-o>:IndentLinesToggle<CR>
