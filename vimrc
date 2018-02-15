@@ -9,7 +9,6 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'vim-scripts/a.vim'
 Plug 'moll/vim-bbye'
-Plug 'tpope/vim-obsession'
 Plug 'Yggdroot/indentLine'
 Plug 'neomake/neomake'
 Plug 'vim-python/python-syntax'
@@ -567,14 +566,3 @@ endfunction
 highlight BufNeomakeStat ctermfg=LightBlue ctermbg=Black cterm=bold
 set statusline=%#BufNeomakeStat#%{BufNeomakeStat()}
 	\%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-
-" Restore the previous session, if required
-function! RestoreSession()
-	silent source ./Session.vim
-	" The following command still does not fully work if there are split
-	" windows with different buffers. Need to figure out a better solution.
-	windo filetype detect
-endfunction
-if @% == '' && filereadable("./Session.vim")
-	autocmd VimEnter * call RestoreSession()
-endif
