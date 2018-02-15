@@ -19,7 +19,7 @@
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
 	<key>CheckTestRelease</key>
-	<true/>
+	<false/>
 	<key>ClosingHotkeySwitchesSpaces</key>
 	<true/>
 	<key>CommandSelection</key>
@@ -359,17 +359,17 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>258 407 606 456 0 0 1280 778 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>1930 218 620 392 1280 -280 1920 1057 </string>
+	<string>-1270 188 620 392 -1920 -400 1920 1177 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>1905 66 796 473 1280 -280 1920 1057 </string>
+	<string>-1509 101 796 473 -1920 -400 1920 1177 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1280 -276 1920 1053 1280 -280 1920 1057 </string>
+	<string>0 400 585 377 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>1280 -280 1920 1057 1280 -280 1920 1057 </string>
+	<string>-1920 -400 1920 1177 -1920 -400 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>393 234 585 377 0 0 1280 777 </string>
+	<string>-1920 -396 1920 1173 -1920 -400 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_5D83C620-F48E-42D8-A0B1-580D288D4BCC</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_A0C1A6E8-70A5-420B-8DF6-3CCE091B2E71</key>
@@ -1747,6 +1747,8 @@
 			<array/>
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
+			<key>Thin Strokes</key>
+			<integer>0</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Triggers</key>
@@ -2568,11 +2570,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml?shard=31</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=31</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-12T18:19:20Z</date>
+	<date>2018-02-13T21:11:22Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2622,6 +2624,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.4.beta.1</string>
+	<string>3.1.5.beta.2</string>
 </dict>
 </plist>
