@@ -17,10 +17,11 @@ Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
 Plug 'mrbiggfoot/unite-tselect2'
 Plug 'mrbiggfoot/unite-id'
-Plug 'mrbiggfoot/deoplete-filesrc'
 
 Plug 'Shougo/unite.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'ajh17/VimCompletesMe'
+Plug 'eparreno/vim-l9'
+Plug 'othree/vim-autocomplpop'
 
 call plug#end()
 
@@ -28,19 +29,8 @@ call plug#end()
 " Plugins configuration
 "------------------------------------------------------------------------------
 
-" Use deoplete
-let g:deoplete#enable_at_startup = 1
-" deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" The cache size should be > tags file size for 'tags' source to work
-"let g:deoplete#tag#cache_limit_size = 200000000
-
-let g:deoplete#sources = {}
-let g:deoplete#sources.cpp = ['buffer', 'member', 'file', 'around', 'filesrc']
-let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources._ = ['filesrc']
-let g:deoplete#ignore_sources.cpp = []
-"autocmd VimEnter * call deoplete#initialize()
+" AutoComplPop
+let g:AutoComplPopDontSelectFirst = 1
 
 " Unite
 call unite#custom#profile('default', 'context', {
@@ -134,7 +124,6 @@ function! s:configure_project()
 	if isdirectory(cur_prj_meta_root)
 		let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
 		let g:cur_prj_completions = cur_prj_meta_root . "/completions"
-		let g:deoplete#filesrc#path = g:cur_prj_completions
 
 		" The following line is needed for project files opener key mapping
 		let g:cur_prj_files = cur_prj_meta_root . "/files"
