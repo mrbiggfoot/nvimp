@@ -10,7 +10,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'moll/vim-bbye'
 Plug 'Yggdroot/indentLine'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 Plug 'vim-python/python-syntax'
 
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
@@ -65,41 +65,16 @@ let g:indentLine_enabled = 0
 let g:indentLine_faster = 1
 let g:indentLine_color_term = 252
 
-" neomake
-if filereadable("./.neomake_cfg.vim")
-	silent source ./.neomake_cfg.vim
+" ALE
+if filereadable("./.ale_cfg.vim")
+	silent source ./.ale_cfg.vim
 endif
-autocmd! VimLeave * let g:neomake_verbose = 0
-let g:neomake_error_sign = {'text': '>>', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': '**', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': '==', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': '--', 'texthl': 'NeomakeInfoSign'}
 
-let g:bufnr_to_num_jobs = {}
-
-function! StartNeomakeJob()
-	let g:bufnr_to_num_jobs[bufnr('%')] = 1
-	redrawstatus!
-	silent exec 'Neomake'
-endfunction
-
-function! FinishNeomakeJob()
-	if g:neomake_hook_context.jobinfo.file_mode != 1
-		return
-	endif
-	let l:buf = g:neomake_hook_context.jobinfo.bufnr
-	if has_key(g:bufnr_to_num_jobs, l:buf)
-		unlet g:bufnr_to_num_jobs[l:buf]
-		redrawstatus!
-	else
-		echoerr "No key " . l:buf . " in g:bufnr_to_num_jobs!"
-	endif
-endfunction
-
-augroup neomake_hooks
-	au!
-	autocmd User NeomakeJobFinished call FinishNeomakeJob()
-augroup END
+augroup ALEProgress
+    autocmd!
+    autocmd User ALELintPre  redrawstatus!
+    autocmd User ALELintPost redrawstatus!
+augroup end
 
 " python-syntax
 let g:python_version_2 = 1
@@ -545,13 +520,13 @@ syntax on
 colorscheme my_colors_light
 
 " Status line
-function! BufNeomakeStat()
-	if has_key(g:bufnr_to_num_jobs, bufnr('%'))
+function! BufLinterSign()
+	if ale#engine#IsCheckingBuffer(bufnr('%'))
 		return '@ '
 	endif
 	return ''
 endfunction
 
-highlight BufNeomakeStat ctermfg=LightBlue ctermbg=Black cterm=bold
-set statusline=%#BufNeomakeStat#%{BufNeomakeStat()}
+highlight BufLinterSign ctermfg=LightBlue ctermbg=Black cterm=bold
+set statusline=%#BufLinterSign#%{BufLinterSign()}
 	\%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
