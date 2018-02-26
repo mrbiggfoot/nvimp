@@ -54,11 +54,14 @@ function! s:unite_settings()
 	silent! nunmap <buffer> <C-p>
 	silent! iunmap <buffer> <C-p>
 	hi! link CursorLine PmenuSel
+	AcpDisable
 endfunction
 call unite#custom#source('file,file/new,file_list,buffer', 'matchers',
 	\'matcher_fuzzy')
 call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
 	\'sorter_rank')
+autocmd BufEnter * if &ft == 'unite' | AcpDisable | endif
+autocmd BufLeave * if &ft == 'unite' | AcpEnable | endif
 
 " indentLine
 let g:indentLine_enabled = 0
