@@ -16,7 +16,6 @@ let g:ale_cpp_clang_options = '
 \ -DARENA_LSAN_LEVEL=1
 \ -DFUNCTION_REFLECTION
 \ -Wno-invalid-offsetof
-\ -std=c++14
 \ -gcc-toolchain /opt/cross/el7.3-x86_64/gcc-4.9.4
 \ -B /opt/cross/el7.3-x86_64/gcc-4.9.4/bin
 \ -target x86_64-redhat-linux
