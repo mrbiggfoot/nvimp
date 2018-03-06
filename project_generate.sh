@@ -141,11 +141,11 @@ write_lang_map > $CUR_PRJ_LANG_MAP
 mkid --include="text" --default-lang="text" --lang-map=$CUR_PRJ_LANG_MAP --files0-from=$CUR_PRJ_FILES0 --output=$CUR_PRJ_IDS
 rm -f $CUR_PRJ_FILES0 $CUR_PRJ_LANG_MAP
 
-# Generate ctags
+# Generate ctags (using universal-ctags)
 echo Generate ctags
-CTAGS_OPT="--tag-relative=yes --c++-kinds=+p --fields=+iaS --extra=+q --languages=c,c++,c#,python,vim,html,lua,javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as"
+CTAGS_OPT="--tag-relative=yes --c++-kinds=+p --fields=+iaS --extras=+q --languages=c,c++,c#,python,vim,html,lua,javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as"
 ctags -o $CUR_PRJ_CTAGS $CTAGS_OPT -L $CUR_PRJ_FILES
 
 # Generate completions
 echo Generate completions
-tail -n +7 $CUR_PRJ_CTAGS | awk '{ if (length($1) > 3) print $1 }' | grep -v "::" | sort | uniq >$CUR_PRJ_COMPLETIONS
+grep -v "^\!" $CUR_PRJ_CTAGS | awk '{ if (length($1) > 3) print $1 }' | grep -v "::" | sort | uniq >$CUR_PRJ_COMPLETIONS

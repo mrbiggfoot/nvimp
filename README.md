@@ -4,7 +4,7 @@ My neovim configuration.
 ## Prerequisites
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
-- [ctags](https://github.com/fdinoff/exuberant-ctags) with protobuf support
+- [universal-ctags](https://github.com/universal-ctags/ctags)
 - [GNU idutils](http://www.gnu.org/software/idutils)
 
 ## Environment
