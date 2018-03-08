@@ -19,9 +19,7 @@ Plug 'mrbiggfoot/unite-tselect2'
 Plug 'mrbiggfoot/unite-id'
 
 Plug 'Shougo/unite.vim'
-Plug 'ajh17/VimCompletesMe'
-Plug 'eparreno/vim-l9'
-Plug 'othree/vim-autocomplpop'
+Plug 'lifepillar/vim-mucomplete'
 
 call plug#end()
 
@@ -29,8 +27,15 @@ call plug#end()
 " Plugins configuration
 "------------------------------------------------------------------------------
 
-" AutoComplPop
-let g:AutoComplPopDontSelectFirst = 1
+" MuComplete
+set completeopt=menuone,noselect,noinsert
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#chains = {}
+let g:mucomplete#chains.default = ['path', 'omni', 'keyn', 'dict', 'uspl']
+let g:mucomplete#chains.vim = ['path', 'keyn', 'cmd']
+let g:mucomplete#chains.cpp = ['path', 'keyn', 'tags']
+set shortmess+=c   " Shut off completion messages
+set belloff+=ctrlg " If Vim beeps during completion
 
 " Unite
 call unite#custom#profile('default', 'context', {
