@@ -34,6 +34,7 @@ let g:mucomplete#chains = {}
 let g:mucomplete#chains.default = ['path', 'omni', 'keyn', 'dict', 'uspl']
 let g:mucomplete#chains.vim = ['path', 'keyn', 'cmd']
 let g:mucomplete#chains.cpp = ['path', 'keyn', 'tags']
+let g:mucomplete#chains.c = g:mucomplete#chains.cpp
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 
