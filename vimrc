@@ -37,6 +37,7 @@ let g:mucomplete#chains.vim = ['path', 'keyn', 'cmd']
 let g:mucomplete#chains.cpp = ['path', 'keyn', 'tags']
 let g:mucomplete#chains.c = g:mucomplete#chains.cpp
 let g:mucomplete#chains.python = ['path', 'keyn', 'tags']
+let g:mucomplete#chains.unite = []
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 
@@ -62,14 +63,11 @@ function! s:unite_settings()
 	silent! nunmap <buffer> <C-p>
 	silent! iunmap <buffer> <C-p>
 	hi! link CursorLine PmenuSel
-	AcpDisable
 endfunction
 call unite#custom#source('file,file/new,file_list,buffer', 'matchers',
 	\'matcher_fuzzy')
 call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
 	\'sorter_rank')
-autocmd BufEnter * if &ft == 'unite' | AcpDisable | endif
-autocmd BufLeave * if &ft == 'unite' | AcpEnable | endif
 
 " indentLine
 let g:indentLine_enabled = 0
