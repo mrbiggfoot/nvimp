@@ -17,6 +17,7 @@ Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
 Plug 'mrbiggfoot/unite-tselect2'
 Plug 'mrbiggfoot/unite-id'
+Plug 'mrbiggfoot/neoview'
 
 Plug 'Shougo/unite.vim'
 Plug 'lifepillar/vim-mucomplete'
@@ -35,6 +36,7 @@ let g:mucomplete#chains.default = ['path', 'omni', 'keyn', 'dict', 'uspl']
 let g:mucomplete#chains.vim = ['path', 'keyn', 'cmd']
 let g:mucomplete#chains.cpp = ['path', 'keyn', 'tags']
 let g:mucomplete#chains.c = g:mucomplete#chains.cpp
+let g:mucomplete#chains.python = ['path', 'keyn', 'tags']
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 
