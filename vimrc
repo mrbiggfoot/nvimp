@@ -41,6 +41,7 @@ let g:mucomplete#chains.unite = []
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 imap <expr><right> pumvisible() ? "\<c-y>" : "\<right>"
+imap <expr><end> pumvisible() ? "\<c-y>" : "\<end>"
 
 " Unite
 call unite#custom#profile('default', 'context', {
