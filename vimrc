@@ -172,7 +172,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Close buffer
-nnoremap <leader>q :Bdelete<CR>
+nnoremap <leader>q :Bwipeout<CR>
 
 " Alt-c|v - copy/paste from X clipboard.
 vnoremap ç "+y
