@@ -1,3 +1,4 @@
+let g:ale_linters = {'cpp': ['clang']}
 let g:ale_cpp_clang_executable = '/opt/cross/clang-3.8.1/bin/clang++'
 let g:ale_cpp_clang_options = '
 \ -fsyntax-only
@@ -16,6 +17,7 @@ let g:ale_cpp_clang_options = '
 \ -DARENA_LSAN_LEVEL=1
 \ -DFUNCTION_REFLECTION
 \ -Wno-invalid-offsetof
+\ -std=c++14
 \ -gcc-toolchain /opt/cross/el7.3-x86_64/gcc-4.9.4
 \ -B /opt/cross/el7.3-x86_64/gcc-4.9.4/bin
 \ -target x86_64-redhat-linux
