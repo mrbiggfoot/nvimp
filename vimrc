@@ -30,6 +30,7 @@ call plug#end()
 
 " MuComplete
 set completeopt=menuone,noselect,noinsert
+set completeopt+=fuzzy  " Works only in 'mrbiggfoot/neovim'
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {}
 let g:mucomplete#chains.default = ['path', 'omni', 'keyn', 'dict', 'uspl']
