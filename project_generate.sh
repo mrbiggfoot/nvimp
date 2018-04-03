@@ -143,7 +143,7 @@ rm -f $CUR_PRJ_FILES0 $CUR_PRJ_LANG_MAP
 
 # Generate ctags (using universal-ctags)
 echo Generate ctags
-CTAGS_OPT="--tag-relative=yes -n --c++-kinds=+p --fields=+iaS --extras=+q --languages=c,c++,c#,python,vim,html,lua,javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as"
+CTAGS_OPT="--tag-relative=yes --c++-kinds=+p --fields=+iaS --extra=+q --languages=c,c++,c#,python,vim,html,lua,javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as"
 ctags -o $CUR_PRJ_CTAGS $CTAGS_OPT -L $CUR_PRJ_FILES
 
 # Generate completions
