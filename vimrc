@@ -78,6 +78,11 @@ let g:indentLine_faster = 1
 let g:indentLine_color_term = 252
 
 " ALE
+" Disable ALE until the first insert mode entering
+let g:ale_enabled = 0
+autocmd! InsertEnter * if !exists('g:first_insert') | let g:first_insert = 1 |
+  \ ALEEnable | endif
+
 if filereadable("./.ale_cfg.vim")
 	silent source ./.ale_cfg.vim
 endif
