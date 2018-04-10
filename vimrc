@@ -532,7 +532,7 @@ autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
 " No line numbers in terminal window
 autocmd TermOpen * setlocal nonumber norelativenumber
 
-set timeoutlen=0 ttimeoutlen=0
+set timeoutlen=500 ttimeoutlen=0
 
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
