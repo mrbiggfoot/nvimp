@@ -43,6 +43,8 @@ set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 imap <expr><right> pumvisible() ? "\<c-y>" : "\<right>"
 imap <expr><end> pumvisible() ? "\<c-y>" : "\<end>"
+imap <expr><esc> pumvisible() ? "\<c-e>" : "\<esc>"
+imap <expr><cr> pumvisible() ? "\<c-y>" : "\<cr>"
 
 " Unite
 call unite#custom#profile('default', 'context', {
@@ -530,7 +532,7 @@ autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
 " No line numbers in terminal window
 autocmd TermOpen * setlocal nonumber norelativenumber
 
-set timeoutlen=1000 ttimeoutlen=0
+set timeoutlen=0 ttimeoutlen=0
 
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
