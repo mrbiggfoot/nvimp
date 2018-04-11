@@ -533,8 +533,6 @@ autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber
 
 set timeoutlen=500 ttimeoutlen=0
-autocmd InsertEnter * set timeoutlen=0
-autocmd InsertLeave * set timeoutlen=500
 
 " Enable syntax highlighting. In iTerm2, select 'Light Background' palette.
 syntax on
