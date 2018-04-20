@@ -42,7 +42,7 @@ let g:mucomplete#chains.unite = []
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 imap <expr><right> pumvisible() ? "\<c-y>" : "\<right>"
-imap <expr><end> pumvisible() ? "\<c-y>" : "\<end>"
+imap <expr><end> pumvisible() ? "\<c-y>\<end>" : "\<end>"
 imap <expr><cr> pumvisible() ? "\<c-y>" : "\<cr>"
 
 " Unite
@@ -505,8 +505,8 @@ set	cinoptions=>s,e0,n0,f0,{0,}0,^0,:0,=s,l0,b0,g0,hs,ps,ts,is,+s,c3,C0,0,
 autocmd FileType c,cpp,proto,python,cmake,javascript,java,vim
 	\ setlocal sw=2 ts=2 sts=2 expandtab autoindent
 
-" Disable line numbers and color column in quickfix window.
-autocmd FileType qf setlocal nonumber colorcolumn=
+" Disable line numbers and color column in quickfix window, also enable wrap.
+autocmd FileType qf setlocal wrap nonumber colorcolumn=
 
 " Jump to the last position when reopening a file
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
