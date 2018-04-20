@@ -181,11 +181,9 @@ vnoremap > >gv
 " Close buffer
 nnoremap <leader>q :Bwipeout<CR>
 
-" Alt-c|v - copy/paste from X clipboard.
-vnoremap ç "+y
-nnoremap ç V"+y:echo "1 line yanked"<CR>
-nnoremap √ "+P
-inoremap √ <C-o>"+P
+" Alt-c - copy to X clipboard.
+vnoremap <silent> ç :<C-u>silent '<,'>w !xclip<CR>
+nnoremap <silent> ç V:<C-u>silent '<,'>w !xclip<CR>
 
 " Alt-/ - switch to correspondent header/source file
 nnoremap ÷ :A<CR>
