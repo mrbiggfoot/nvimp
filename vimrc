@@ -31,17 +31,18 @@ call plug#end()
 " MuComplete
 set completeopt=menuone,noselect,noinsert
 set completeopt+=fuzzy  " Works only in 'mrbiggfoot/neovim'
+set complete=.,w,b,u
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#chains = {}
-let g:mucomplete#chains.default = ['path', 'omni', 'keyn', 'dict', 'uspl']
-let g:mucomplete#chains.vim = ['path', 'keyn', 'cmd']
-let g:mucomplete#chains.cpp = ['path', 'keyn', 'tags']
+let g:mucomplete#chains.default = ['path', 'c-n', 'dict', 'uspl']
+let g:mucomplete#chains.vim = ['path', 'c-n', 'cmd']
+let g:mucomplete#chains.cpp = ['path', 'c-n', 'tags']
 let g:mucomplete#chains.c = g:mucomplete#chains.cpp
-let g:mucomplete#chains.python = ['path', 'keyn', 'tags']
+let g:mucomplete#chains.python = ['path', 'c-n', 'tags']
 let g:mucomplete#chains.unite = []
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
-imap <expr><right> pumvisible() ? "\<c-y>" : "\<right>"
+imap <expr><right> pumvisible() ? "\<c-y>\<right>" : "\<right>"
 imap <expr><end> pumvisible() ? "\<c-y>\<end>" : "\<end>"
 imap <expr><cr> pumvisible() ? "\<c-y>" : "\<cr>"
 
