@@ -524,6 +524,20 @@ function! HighlightFormatting()
 endfunction
 autocmd BufNewFile,BufReadPost,WinEnter * call HighlightFormatting()
 
+function! SetColorColumn(enable)
+  if &filetype == 'cpp' || &filetype == 'c' || &filetype == 'proto' ||
+  \ &filetype == 'python' || &filetype == 'cmake' || &filetype == 'vim' ||
+  \ &filetype == 'javascript' || &filetype == 'java'
+    if a:enable
+      set colorcolumn=80
+    else
+      set colorcolumn=0
+    endif
+  endif
+endfunction
+autocmd! InsertEnter * call SetColorColumn(1)
+autocmd! InsertLeave * call SetColorColumn(0)
+
 " Automatically enter insert mode in terminal window
 autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
 
