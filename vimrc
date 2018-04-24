@@ -87,7 +87,7 @@ let g:indentLine_color_term = 252
 " ALE
 " Disable ALE until the first insert mode entering
 let g:ale_enabled = 0
-autocmd! InsertEnter * if !exists('g:first_insert') | let g:first_insert = 1 |
+autocmd InsertEnter * if !exists('g:first_insert') | let g:first_insert = 1 |
   \ ALEEnable | endif
 
 if filereadable("./.ale_cfg.vim")
@@ -540,8 +540,8 @@ function! SetColorColumn(enable)
     endif
   endif
 endfunction
-autocmd! InsertEnter * call SetColorColumn(1)
-autocmd! InsertLeave * call SetColorColumn(0)
+autocmd InsertEnter * call SetColorColumn(1)
+autocmd InsertLeave * call SetColorColumn(0)
 
 " Automatically enter insert mode in terminal window
 autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
