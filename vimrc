@@ -580,7 +580,7 @@ function! GenerateCppCompletionTags()
       " Tagging is already in progress.
       return
     endif
-    call setbufvar(bufnum, 'compl_tags_run', 1)
+    call setbufvar(bufnum, 'compl_tags_running', 1)
 
     let opts = { 'buf' : bufnum, 'name' : tempname(),
       \ 'stderr_buffered' : v:true, 'stderr' : '' }
@@ -606,10 +606,18 @@ function! GenerateCppCompletionTags()
       else
         echoerr "Failed to execute '" . self.cmd . "'" self.stderr
       endif
-      call setbufvar(self.buf, 'compl_tags_run', 0)
+      call setbufvar(self.buf, 'compl_tags_running', 0)
     endfunction
 
     call jobstart(opts.cmd, opts)
   endif
 endfunction
 autocmd BufWritePost,BufReadPost * call GenerateCppCompletionTags()
+
+function! DeleteCompletionTags()
+  let name = getbufvar(+expand('<abuf>'), 'compl_tags', '')
+  if name != ''
+    call delete(name)
+  endif
+endfunction
+autocmd BufUnload * call DeleteCompletionTags()
