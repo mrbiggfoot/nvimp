@@ -556,15 +556,22 @@ syntax on
 colorscheme my_colors_light
 
 " Status line
-function! BufLinterSign()
-	if ale#engine#IsCheckingBuffer(bufnr('%'))
-		return '@ '
+function! BufJobSign()
+  let bufnum = bufnr('%')
+  let s = ''
+	if ale#engine#IsCheckingBuffer(bufnum)
+		let s = '@'
 	endif
-	return ''
+  if getbufvar(bufnum, 'compl_tags_job', 0) > 0
+    let s = s . 't '
+  elseif s != ''
+    let s = s . ' '
+  endif
+  return s
 endfunction
 
-highlight BufLinterSign ctermfg=LightBlue ctermbg=Black cterm=bold
-set statusline=%#BufLinterSign#%{BufLinterSign()}
+highlight BufJobSign ctermfg=LightBlue ctermbg=Black cterm=bold
+set statusline=%#BufJobSign#%{BufJobSign()}
 	\%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 "------------------------------------------------------------------------------
@@ -616,10 +623,12 @@ function! GenerateCppCompletionTags()
         echoerr "Failed to execute '" . self.cmd . "'" self.stderr
       endif
       call setbufvar(self.buf, 'compl_tags_job', 0)
+      redrawstatus!
     endfunction
 
     let job_id = jobstart(opts.cmd, opts)
     call setbufvar(bufnum, 'compl_tags_job', job_id)
+    redrawstatus!
   endif
 endfunction
 autocmd BufWritePost * call GenerateCppCompletionTags()
