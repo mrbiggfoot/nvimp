@@ -576,11 +576,10 @@ function! GenerateCppCompletionTags()
     \ exists('g:ale_cpp_clang_options')
 
     let bufnum = bufnr('%')
-    if getbufvar(bufnum, 'compl_tags_run', 0)
+    if getbufvar(bufnum, 'compl_tags_job', 0) > 0
       " Tagging is already in progress.
       return
     endif
-    call setbufvar(bufnum, 'compl_tags_running', 1)
 
     let opts = { 'buf' : bufnum, 'name' : tempname(),
       \ 'stderr_buffered' : v:true, 'stderr' : '' }
@@ -606,18 +605,26 @@ function! GenerateCppCompletionTags()
       else
         echoerr "Failed to execute '" . self.cmd . "'" self.stderr
       endif
-      call setbufvar(self.buf, 'compl_tags_running', 0)
+      call setbufvar(self.buf, 'compl_tags_job', 0)
     endfunction
 
-    call jobstart(opts.cmd, opts)
+    let job_id = jobstart(opts.cmd, opts)
+    call setbufvar(bufnum, 'compl_tags_job', job_id)
   endif
 endfunction
 autocmd BufWritePost,BufReadPost * call GenerateCppCompletionTags()
 
 function! DeleteCompletionTags()
-  let name = getbufvar(+expand('<abuf>'), 'compl_tags', '')
+  let bufnum = +expand('<abuf>')
+  let job_id = getbufvar(bufnum, 'compl_tags_job', 0)
+  if job_id > 0
+    jobstop(job_id)
+    call setbufvar(bufnum, 'compl_tags_job', 0)
+  endif
+  let name = getbufvar(bufnum, 'compl_tags', '')
   if name != ''
     call delete(name)
+    call setbufvar(bufnum, 'compl_tags', '')
   endif
 endfunction
 autocmd BufUnload * call DeleteCompletionTags()
