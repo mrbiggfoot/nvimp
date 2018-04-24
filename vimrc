@@ -571,6 +571,16 @@ set statusline=%#BufLinterSign#%{BufLinterSign()}
 " Generate file specific tags using ALE defs for clang
 "------------------------------------------------------------------------------
 
+function! BufferIsPreview()
+  let bufnr = bufnr('%')
+  for nr in range(1, winnr('$'))
+    if winbufnr(nr) == bufnr && !getwinvar(nr, '&previewwindow')
+      return v:false
+    endif
+  endfor
+  return v:true
+endfunction
+
 function! GenerateCppCompletionTags()
   if &filetype == 'cpp' && exists('g:ale_cpp_clang_executable') &&
     \ exists('g:ale_cpp_clang_options')
@@ -612,7 +622,9 @@ function! GenerateCppCompletionTags()
     call setbufvar(bufnum, 'compl_tags_job', job_id)
   endif
 endfunction
-autocmd BufWritePost,BufReadPost * call GenerateCppCompletionTags()
+autocmd BufWritePost * call GenerateCppCompletionTags()
+autocmd BufReadPost * if !BufferIsPreview() |
+  \ call GenerateCppCompletionTags() | endif
 
 function! DeleteCompletionTags()
   let bufnum = +expand('<abuf>')
