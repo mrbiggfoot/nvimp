@@ -561,3 +561,50 @@ endfunction
 highlight BufLinterSign ctermfg=LightBlue ctermbg=Black cterm=bold
 set statusline=%#BufLinterSign#%{BufLinterSign()}
 	\%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+"------------------------------------------------------------------------------
+" Generate file specific tags using ALE defs for clang
+"------------------------------------------------------------------------------
+
+function! GenerateCppCompletionTags()
+  if &filetype == 'cpp' && exists('g:ale_cpp_clang_executable') &&
+    \ exists('g:ale_cpp_clang_options')
+
+    let bufnum = bufnr('%')
+    if getbufvar(bufnum, 'compl_tags_run', 0)
+      " Tagging is already in progress.
+      return
+    endif
+    call setbufvar(bufnum, 'compl_tags_run', 1)
+
+    let opts = { 'buf' : bufnum, 'name' : tempname(),
+      \ 'stderr_buffered' : v:true, 'stderr' : '' }
+    let opts.cmd = g:ale_cpp_clang_executable . ' ' . g:ale_cpp_clang_options
+      \ . ' -MM ' . expand('%:p')
+      \ . ' | awk ''{if (NR == 1) print $2; else print $1}'''
+      \ . ' | ctags -o ' . opts['name'] . ' --tag-relative=yes --c++-kinds=+p'
+      \ . ' --fields=+iaS --extra=+q --languages=c,c++,c#,python,vim,html,lua,'
+      \ . 'javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,'
+      \ . 'c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as -L -'
+
+    function! opts.on_stderr(job_id, data, event)
+      let self.stderr = join(a:data, "\n")
+    endfunction
+
+    function! opts.on_exit(job_id, code, event)
+      if a:code == 0
+        let old_name = getbufvar(self.buf, 'compl_tags', '')
+        call setbufvar(self.buf, 'compl_tags', self.name)
+        if old_name != ''
+          call delete(old_name)
+        endif
+      else
+        echoerr "Failed to execute '" . self.cmd . "'" self.stderr
+      endif
+      call setbufvar(self.buf, 'compl_tags_run', 0)
+    endfunction
+
+    call jobstart(opts.cmd, opts)
+  endif
+endfunction
+autocmd BufWritePost,BufReadPost * call GenerateCppCompletionTags()
