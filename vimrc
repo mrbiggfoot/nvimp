@@ -460,6 +460,24 @@ command! -nargs=1 -complete=tag FTE :Unite -previewheight=100 tselect:<args>
 " Up - update project metadata
 command! -nargs=0 Up :call s:update_project()
 
+" Rg - search files using ripgrep and fzf
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.
+  \   shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options':'--bind=tab:down'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options':'--bind=tab:down'},
+  \                                   'right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Rgf - search file names using ripgrep and fzf
+command! -bang -nargs=? -complete=dir Rgf
+  \ call fzf#run({'source': 'rg --files', 'sink':'e',
+	\   'up':'~100%',
+  \   'options':'--reverse --bind=tab:down,f1:toggle-preview '.
+  \     '--preview="head -n100 {}"'.
+  \     (<bang>0 ? '' : ' --preview-window=right:50%:hidden') })
+
 "------------------------------------------------------------------------------
 " Misc configuration
 "------------------------------------------------------------------------------
