@@ -14,10 +14,11 @@ CUR_PRJ_COMPLETIONS=${CUR_PRJ_BRANCH_META_ROOT}/completions
 print_usage()
 {
 	echo
-	echo "project_generate.sh [ mkdir | gtags | clean | cleanall ]"
+	echo "project_generate.sh [ mkdir | edit | gtags | clean | cleanall ]"
 	echo "If none of the following is specified, update the current project's metadata."
 	echo
 	echo "  * If 'mkdir' is specified, creates the project's metadata directory."
+	echo "  * If 'edit' is specified, runs vim to edit the project settings."
 	echo "  * If 'gtags' is specified, generates GNU Global tags."
 	echo "  * If 'clean' is specified, deletes metadata of all the dead branches."
 	echo "  * If 'cleanall' is specified, deletes metadata of all the branches"
@@ -63,6 +64,8 @@ if [ $# -eq 1 ]; then
 			write_project_settings > $CUR_PRJ_SETTINGS
 			echo $CUR_PRJ_SETTINGS created, edit it if required.
 		fi
+	elif [ "$1" == 'edit' ]; then
+		vim $CUR_PRJ_SETTINGS
 	elif [ "$1" == 'gtags' ]; then
 		generate_gtags
 	elif [ "$1" == 'cleanall' ]; then
