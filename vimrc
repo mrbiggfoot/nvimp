@@ -426,7 +426,7 @@ endfunction
 if exists("g:cur_prj_files")
 	let s:ctrl_p_cmd = FilesCmd('cat ' . g:cur_prj_files)
 else
-	let s:ctrl_p_cmd = FilesCmd('find .')
+	let s:ctrl_p_cmd = FilesCmd('rg --files')
 endif
 exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
 exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
