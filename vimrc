@@ -599,7 +599,8 @@ set statusline=%#BufJobSign#%{BufJobSign()}
 function! BufferIsPreview()
   let bufnr = bufnr('%')
   for nr in range(1, winnr('$'))
-    if winbufnr(nr) == bufnr && !getwinvar(nr, '&previewwindow')
+    if winbufnr(nr) == bufnr && !getwinvar(nr, '&previewwindow') &&
+      \ !getwinvar(nr, 'neoview_p')
       return v:false
     endif
   endfor
