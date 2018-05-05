@@ -502,6 +502,9 @@ set lazyredraw " do not redraw while executing macros (much faster)
 set display+=lastline " for easy browse last line with wrap text
 set laststatus=2 " always have status-line
 
+" Have sane window resizing behavior
+set winminheight=0
+
 " Show line numbers
 set number
 
