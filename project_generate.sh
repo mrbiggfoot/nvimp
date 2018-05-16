@@ -36,14 +36,34 @@ write_project_settings()
 	find . -maxdepth 1 ! -path "*/\.*" ! -path "*\~" ! -path "." -type d -printf "\t\"%f\"\n"
 	echo ")"
 	echo
+	echo "# Make the argument string for ripgrep"
+	echo "PRJ_DIRS_ARG="
+	echo "for dir in \"\${PRJ_DIRS[@]}\""
+	echo "do"
+	echo -e "\tPRJ_DIRS_ARG+=\"\$dir \""
+	echo "done"
+	echo
 	echo "# Directories to be excluded"
 	echo "#PRJ_DIRS_EXCLUDE=("
 	echo -e "#\t\"build/toolchain/include/boost\""
 	echo "#)"
 	echo
-	echo "# File extensions to include in the project"
-	echo "PRJ_FILE_FILTER=\"c|C|c\+\+|cc|cp|cpp|cxx|h|H|h\+\+|hh|hp|hpp|hxx|inl|ipp|\"\\"
-	echo "\"proto|py\""
+	echo "# Make the argument string for ripgrep"
+	echo "PRJ_DIRS_EXCLUDE_ARG="
+	echo "for dir in \"\${PRJ_DIRS_EXCLUDE[@]}\""
+	echo "do"
+	echo -e "\tPRJ_DIRS_EXCLUDE_ARG+=\"-g '!\$dir' \""
+	echo "done"
+	echo
+	echo "# File types to include in the project"
+	echo "PRJ_FILE_TYPES=(\"c\" \"cpp\" \"protobuf\" \"py\")"
+	echo
+	echo "# Make the argument string for ripgrep"
+	echo "PRJ_FILE_TYPES_ARG="
+	echo "for t in \"\${PRJ_FILE_TYPES[@]}\""
+	echo "do"
+	echo -e "\tPRJ_FILE_TYPES_ARG+=\"-t \$t \""
+	echo "done"
 }
 
 generate_gtags()
@@ -65,7 +85,7 @@ if [ $# -eq 1 ]; then
 			echo $CUR_PRJ_SETTINGS created, edit it if required.
 		fi
 	elif [ "$1" == 'edit' ]; then
-		vim $CUR_PRJ_SETTINGS
+		nvim $CUR_PRJ_SETTINGS
 	elif [ "$1" == 'gtags' ]; then
 		generate_gtags
 	elif [ "$1" == 'cleanall' ]; then
@@ -100,19 +120,7 @@ source $CUR_PRJ_SETTINGS
 
 # Generate list of project files
 echo Generate list of project files
-FIND_DIRS=
-for dir in "${PRJ_DIRS[@]}"
-do
-	FIND_DIRS+="$dir "
-done
-
-FIND_DIRS_EXCLUDE=
-for dir in "${PRJ_DIRS_EXCLUDE[@]}"
-do
-	FIND_DIRS_EXCLUDE+=" -not \( -path $dir -prune \)"
-done
-
-CMD="find $FIND_DIRS $FIND_DIRS_EXCLUDE -regextype posix-extended -regex \".*\.($PRJ_FILE_FILTER)\" > $CUR_PRJ_FILES"
+CMD="rg --files $PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG $PRJ_DIRS_ARG | sort > $CUR_PRJ_FILES"
 eval $CMD
 
 # Generate IDs
