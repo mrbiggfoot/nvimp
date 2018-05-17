@@ -427,7 +427,7 @@ function! FindPattern(pattern, in_project, ripgrep_opt)
   else
     let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
   endif
-  let arg.fzf_win = 'below %40split | set winfixheight'
+  let arg.fzf_win = 'botright %40split | set winfixheight'
   let arg.preview_win = 'above %100split'
   call neoview#fzf#run(arg)
 endfunction
