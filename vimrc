@@ -53,31 +53,31 @@ let g:mucomplete#no_popup_mappings = 1
 
 " Unite
 call unite#custom#profile('default', 'context', {
-\	'direction': 'dynamicbottom',
-\	'cursor_line_time': '0.0',
-\	'prompt_direction': 'top',
-\	'auto_resize': 1,
-\	'select': '1'
+\ 'direction': 'dynamicbottom',
+\ 'cursor_line_time': '0.0',
+\ 'prompt_direction': 'top',
+\ 'auto_resize': 1,
+\ 'select': '1'
 \ })
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
 function! s:unite_settings()
-	nmap <buffer> p <Plug>(unite_toggle_auto_preview)
-	nmap <buffer> <Esc> <Plug>(unite_exit)
-	imap <buffer> <Tab> <C-x><Down>
-	imap <buffer> <S-Tab> <C-x><Up>
-	" Disable cursor looping
-	silent! nunmap <buffer> <Up>
-	silent! nunmap <buffer> <Down>
-	" Unmap keys defined globally
-	silent! nunmap <buffer> <C-p>
-	silent! iunmap <buffer> <C-p>
-	hi! link CursorLine PmenuSel
+  nmap <buffer> p <Plug>(unite_toggle_auto_preview)
+  nmap <buffer> <Esc> <Plug>(unite_exit)
+  imap <buffer> <Tab> <C-x><Down>
+  imap <buffer> <S-Tab> <C-x><Up>
+  " Disable cursor looping
+  silent! nunmap <buffer> <Up>
+  silent! nunmap <buffer> <Down>
+  " Unmap keys defined globally
+  silent! nunmap <buffer> <C-p>
+  silent! iunmap <buffer> <C-p>
+  hi! link CursorLine PmenuSel
 endfunction
 call unite#custom#source('file,file/new,file_list,buffer', 'matchers',
-	\'matcher_fuzzy')
+  \'matcher_fuzzy')
 call unite#custom#source('file,file/new,file_list,buffer', 'sorters',
-	\'sorter_rank')
+  \'sorter_rank')
 
 " indentLine
 let g:indentLine_enabled = 0
@@ -91,7 +91,7 @@ autocmd InsertEnter * if !exists('g:first_insert') | let g:first_insert = 1 |
   \ ALEEnable | endif
 
 if filereadable("./.ale_cfg.vim")
-	silent source ./.ale_cfg.vim
+  silent source ./.ale_cfg.vim
 endif
 
 augroup ALEProgress
@@ -109,36 +109,39 @@ let g:python_highlight_all = 1
 "------------------------------------------------------------------------------
 
 if has('vim_starting')
-	let s:vimp_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+  let s:vimp_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 endif
 
 function! s:configure_project()
-	" prj_meta_root must be an absolute path, or 'lid' won't work
-	let prj_meta_root = $VIMP_PROJECTS_META_ROOT
-	let cur_prj_root = getcwd()
-	let cur_prj_branch = system('git rev-parse --abbrev-ref HEAD 2>/dev/null')
-	let cur_prj_branch = substitute(cur_prj_branch, '\n', '', '')
-	let cur_prj_meta_root = prj_meta_root . cur_prj_root . '/' . cur_prj_branch
+  " prj_meta_root must be an absolute path, or 'lid' won't work
+  let prj_meta_root = $VIMP_PROJECTS_META_ROOT
+  let cur_prj_root = getcwd()
+  let cur_prj_branch = system('git rev-parse --abbrev-ref HEAD 2>/dev/null')
+  let cur_prj_branch = substitute(cur_prj_branch, '\n', '', '')
+  let cur_prj_meta_root = prj_meta_root . cur_prj_root . '/' . cur_prj_branch
 
-	if isdirectory(cur_prj_meta_root)
-		let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
-		let g:cur_prj_completions = cur_prj_meta_root . "/completions"
+  let g:cur_prj_settings_sh =
+    \ prj_meta_root . cur_prj_root . '/project_settings.sh'
 
-		" The following line is needed for project files opener key mapping
-		let g:cur_prj_files = cur_prj_meta_root . "/files"
+  if isdirectory(cur_prj_meta_root)
+    let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
+    let g:cur_prj_completions = cur_prj_meta_root . "/completions"
 
-		" The following line specifies the IDs db path
-		let g:unite_ids_db_path = cur_prj_meta_root . "/ID"
+    " The following line is needed for project files opener key mapping
+    let g:cur_prj_files = cur_prj_meta_root . "/files"
 
-		exec "set tags=" . g:cur_prj_ctags . ";"
-	endif
+    " The following line specifies the IDs db path
+    let g:unite_ids_db_path = cur_prj_meta_root . "/ID"
+
+    exec "set tags=" . g:cur_prj_ctags . ";"
+  endif
 endfunction
 
 call s:configure_project()
 
 function! s:update_project()
-	exec '!' . s:vimp_path . '/project_generate.sh'
-	call s:configure_project()
+  exec '!' . s:vimp_path . '/project_generate.sh'
+  call s:configure_project()
 endfunction
 
 "------------------------------------------------------------------------------
@@ -200,20 +203,20 @@ nnoremap ¿ :IH<CR>
 inoremap ¿ <C-O>:IH<CR>
 
 function! SwapWindowWith(pos)
-	let l:cur_wnd = winnr()
-	let l:cur_buf = bufnr('%')
-	let l:cur_view = winsaveview()
-	exec "100wincmd h"
-	if a:pos > 1
-		exec (a:pos - 1) . "wincmd l"
-	endif
-	let l:swap_buf = bufnr('%')
-	let l:swap_view = winsaveview()
-	exec "b " . l:cur_buf
-	call winrestview(l:cur_view)
-	exec l:cur_wnd . "wincmd w"
-	exec "b " . l:swap_buf
-	call winrestview(l:swap_view)
+  let l:cur_wnd = winnr()
+  let l:cur_buf = bufnr('%')
+  let l:cur_view = winsaveview()
+  exec "100wincmd h"
+  if a:pos > 1
+    exec (a:pos - 1) . "wincmd l"
+  endif
+  let l:swap_buf = bufnr('%')
+  let l:swap_view = winsaveview()
+  exec "b " . l:cur_buf
+  call winrestview(l:cur_view)
+  exec l:cur_wnd . "wincmd w"
+  exec "b " . l:swap_buf
+  call winrestview(l:swap_view)
 endfunction
 
 nnoremap 11 :call SwapWindowWith(1)<CR>
@@ -224,96 +227,96 @@ nnoremap 44 :call SwapWindowWith(4)<CR>
 nnoremap <leader>8 :vertical resize 90<CR>
 
 function! DupRight()
-	let l:cur_wnd = winnr()
-	let l:cur_view = winsaveview()
-	let l:cur_buf = bufnr('%')
-	exec "wincmd l"
-	if winnr() == l:cur_wnd
-		exec "wincmd v"
-		exec "wincmd l"
-	endif
-	exec "b " . l:cur_buf
-	call winrestview(l:cur_view)
+  let l:cur_wnd = winnr()
+  let l:cur_view = winsaveview()
+  let l:cur_buf = bufnr('%')
+  exec "wincmd l"
+  if winnr() == l:cur_wnd
+    exec "wincmd v"
+    exec "wincmd l"
+  endif
+  exec "b " . l:cur_buf
+  call winrestview(l:cur_view)
 endfunction
 nnoremap <Bar> :call DupRight()<CR>
 
 function! DupLeft()
-	let l:cur_wnd = winnr()
-	let l:cur_view = winsaveview()
-	let l:cur_buf = bufnr('%')
-	exec "wincmd h"
-	if winnr() == l:cur_wnd
-		exec "wincmd v"
-		exec "wincmd l"
-		exec "b " . l:cur_buf
-		call winrestview(l:cur_view)
-		exec "wincmd h"
-	else
-		exec "b " . l:cur_buf
-		call winrestview(l:cur_view)
-	endif
+  let l:cur_wnd = winnr()
+  let l:cur_view = winsaveview()
+  let l:cur_buf = bufnr('%')
+  exec "wincmd h"
+  if winnr() == l:cur_wnd
+    exec "wincmd v"
+    exec "wincmd l"
+    exec "b " . l:cur_buf
+    call winrestview(l:cur_view)
+    exec "wincmd h"
+  else
+    exec "b " . l:cur_buf
+    call winrestview(l:cur_view)
+  endif
 endfunction
 nnoremap » :call DupLeft()<CR>
 
 " Open a fzf.vim window with the specified layout.
 function! FzfWindow(layout, fzf_cmd, reverse)
-	if exists("g:fzf_layout")
-		let l:saved_layout = g:fzf_layout
-	endif
-	if a:reverse != 0
-		let $FZF_DEFAULT_OPTS = '--reverse --bind=tab:down'
-	else
-		let $FZF_DEFAULT_OPTS = '--bind=tab:down'
-	endif
-	let g:fzf_layout = a:layout
-	exec a:fzf_cmd
-	if exists("l:saved_layout")
-		let g:fzf_layout = l:saved_layout
-	else
-		unlet g:fzf_layout
-	endif
+  if exists("g:fzf_layout")
+    let l:saved_layout = g:fzf_layout
+  endif
+  if a:reverse != 0
+    let $FZF_DEFAULT_OPTS = '--reverse --bind=tab:down'
+  else
+    let $FZF_DEFAULT_OPTS = '--bind=tab:down'
+  endif
+  let g:fzf_layout = a:layout
+  exec a:fzf_cmd
+  if exists("l:saved_layout")
+    let g:fzf_layout = l:saved_layout
+  else
+    unlet g:fzf_layout
+  endif
 endfunction
 
 function! StartOrCloseUnite(unite_cmd)
-	let unite_winnr = unite#get_unite_winnr('default')
-	if unite_winnr > 0
-		exec "Unite -toggle"
-	else
-		exec a:unite_cmd
-	endif
+  let unite_winnr = unite#get_unite_winnr('default')
+  if unite_winnr > 0
+    exec "Unite -toggle"
+  else
+    exec a:unite_cmd
+  endif
 endfunction
 
 " Returns the command to toggle the specified unite window.
 function! StartOrCloseUniteCallCmd(unite_cmd)
-	return ':call StartOrCloseUnite("' . a:unite_cmd . '")<CR>'
+  return ':call StartOrCloseUnite("' . a:unite_cmd . '")<CR>'
 endfunction
 
 " F1 - toggle location window
 function! ToggleLocationWindow()
-	let l:cur_wnd = winnr()
-	let l:last_winnr = winnr('$')
-	lclose
-	if l:last_winnr == winnr('$')
-		" No local location window has been closed
-		"windo if &buftype == "quickfix" || &buftype == "locationlist"
-		"	\ | lclose | endif
-		"exec l:cur_wnd . "wincmd w"
-		botright lopen
-	endif
+  let l:cur_wnd = winnr()
+  let l:last_winnr = winnr('$')
+  lclose
+  if l:last_winnr == winnr('$')
+    " No local location window has been closed
+    "windo if &buftype == "quickfix" || &buftype == "locationlist"
+    " \ | lclose | endif
+    "exec l:cur_wnd . "wincmd w"
+    botright lopen
+  endif
 endfunction
 nnoremap <silent> <F1> :call ToggleLocationWindow()<CR>
 inoremap <silent> <F1> <Esc>:call ToggleLocationWindow()<CR>
 
 " F2 - search tag
 function! SearchCmd(searcher, prompt)
-	if !exists('g:cur_prj_ctags')
-		return ':echo "No ctags file!"<CR>'
-	endif
-	return ':call fzf#run({"source":"cat ' . g:cur_prj_completions . '",
-		\"sink":"' . a:searcher . '",
-		\"window":"aboveleft new",
-		\"options":"--reverse --bind=tab:down --prompt=\"' . a:prompt . '\""})
-		\<CR>'
+  if !exists('g:cur_prj_ctags')
+    return ':echo "No ctags file!"<CR>'
+  endif
+  return ':call fzf#run({"source":"cat ' . g:cur_prj_completions . '",
+    \"sink":"' . a:searcher . '",
+    \"window":"aboveleft new",
+    \"options":"--reverse --bind=tab:down --prompt=\"' . a:prompt . '\""})
+    \<CR>'
 endfunction
 
 let s:search_tag_cmd = SearchCmd("FT", "Tag> ")
@@ -327,11 +330,11 @@ exec 'inoremap <silent> <S-F2> <Esc>' . s:search_id_cmd
 
 " Cmd-F2 - search lines in the current buffer
 function! BLinesWindow()
-	exec 'let layout = { "window":"below ' .
-		\float2nr(round(winheight('%') * 0.4)) .
-		\'new" }'
-	call FzfWindow(layout, 'call fzf#vim#buffer_lines("",
-		\ { "options": "--bind=tab:down" })', 0)
+  exec 'let layout = { "window":"below ' .
+    \float2nr(round(winheight('%') * 0.4)) .
+    \'new" }'
+  call FzfWindow(layout, 'call fzf#vim#buffer_lines("",
+    \ { "options": "--bind=tab:down" })', 0)
 endfunction
 nnoremap <silent> <M-F2> :call BLinesWindow()<CR>
 inoremap <silent> <M-F2> <Esc>:call BLinesWindow()<CR>
@@ -381,9 +384,9 @@ inoremap <M-F10> <C-o><C-i>
 
 " F10 - browse buffer tags
 nnoremap <F10> :call fzf#vim#buffer_tags('',
-	\ { 'options': '--bind=tab:down' })<CR>
+  \ { 'options': '--bind=tab:down' })<CR>
 inoremap <F10> <Esc>:call fzf#vim#buffer_tags('',
-	\ { 'options': '--bind=tab:down' })<CR>
+  \ { 'options': '--bind=tab:down' })<CR>
 
 " Shift-F10 - browse all tags
 let g:nvimp_fzf_tags_layout = { "down":"~40%" }
@@ -392,17 +395,17 @@ inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags", 1)<CR>
 
 " F11 - toggle default Unite window
 function! ToggleUniteWindow()
-	let unite_winnr = unite#get_unite_winnr('default')
-	if unite_winnr > 0
-		exec unite_winnr . "wincmd w"
-		let g:last_unite_view = winsaveview()
-		exec "Unite -toggle"
-	else
-		exec "UniteResume"
-		if exists("g:last_unite_view")
-			call winrestview(g:last_unite_view)
-		endif
-	endif
+  let unite_winnr = unite#get_unite_winnr('default')
+  if unite_winnr > 0
+    exec unite_winnr . "wincmd w"
+    let g:last_unite_view = winsaveview()
+    exec "Unite -toggle"
+  else
+    exec "UniteResume"
+    if exists("g:last_unite_view")
+      call winrestview(g:last_unite_view)
+    endif
+  endif
 endfunction
 nnoremap <F11> :call ToggleUniteWindow()<CR>
 inoremap <F11> <Esc>:call ToggleUniteWindow()<CR>
@@ -412,21 +415,36 @@ let s:f12_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 tselect')
 exec 'nnoremap <silent> <F12> ' . s:f12_cmd
 exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
 
-" Shift-F12 - find references to the word under cursor using lid (IDs db)
-let s:s_f12_cmd = StartOrCloseUniteCallCmd(
-	\'Unite -previewheight=100 id/lid:<C-r><C-w>:-w')
-exec 'nnoremap <silent> <S-F12> ' . s:s_f12_cmd
-exec 'inoremap <silent> <S-F12> <Esc>' . s:s_f12_cmd
+" Finds the word under cursor either in the project files or in all files,
+" based on the 'in_project' value.
+function! FindWordUnderCursor(in_project)
+  let rg_opt = "--colors 'path:fg:blue' --colors 'path:style:bold' "
+  if a:in_project && filereadable(g:cur_prj_settings_sh)
+    let rg_opt = rg_opt . '$PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG'
+    let arg = neoview#fzf#ripgrep_arg(expand("<cword>"), rg_opt)
+    let arg.source = 'source ' . g:cur_prj_settings_sh . ' && ' .
+      \ 'eval "' . arg.source . ' $PRJ_DIRS_ARG"'
+  else
+    let arg = neoview#fzf#ripgrep_arg(expand("<cword>"), rg_opt)
+  endif
+  let arg.fzf_win = 'below %40split | set winfixheight'
+  let arg.preview_win = 'above %100split'
+  call neoview#fzf#run(arg)
+endfunction
+
+" Shift-F12 - find the word under cursor in the project files
+nnoremap <silent> <S-F12> :call FindWordUnderCursor(v:true)<CR>
+inoremap <silent> <S-F12> <Esc>:call FindWordUnderCursor(v:true)<CR>
 
 " Ctrl-P - open list of files
 function! FilesCmd(file_source)
-	return ':call fzf#run({"source":"' . a:file_source . '", "sink":"e",
-		\"up":"~40%", "options":"--reverse --bind=tab:down"})<CR>'
+  return ':call fzf#run({"source":"' . a:file_source . '", "sink":"e",
+    \"up":"~40%", "options":"--reverse --bind=tab:down"})<CR>'
 endfunction
 if exists("g:cur_prj_files")
-	let s:ctrl_p_cmd = FilesCmd('cat ' . g:cur_prj_files)
+  let s:ctrl_p_cmd = FilesCmd('cat ' . g:cur_prj_files)
 else
-	let s:ctrl_p_cmd = FilesCmd('rg --files')
+  let s:ctrl_p_cmd = FilesCmd('rg --files')
 endif
 exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
 exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
@@ -437,11 +455,11 @@ exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
 
 " F - find a pattern in the IDs database (case insensitive)
 command! -nargs=1 -complete=tag F :Unite -previewheight=100
-	\ id/lid:<args>:-r\ -i
+  \ id/lid:<args>:-r\ -i
 
 " FW - find an exact word in the IDs database (case insensitive)
 command! -nargs=1 -complete=tag FW :Unite -previewheight=100
-	\ id/lid:<args>:-w\ -i
+  \ id/lid:<args>:-w\ -i
 
 " FC - find a pattern in the IDs database (case sensitive)
 command! -nargs=1 -complete=tag FC :Unite -previewheight=100 id/lid:<args>:-r
@@ -473,7 +491,7 @@ command! -bang -nargs=* Rg
 " Rgf - search file names using ripgrep and fzf
 command! -bang -nargs=? -complete=dir Rgf
   \ call fzf#run({'source': 'rg --files', 'sink':'e',
-	\   'up':'~100%',
+  \   'up':'~100%',
   \   'options':'--reverse --bind=tab:down,f1:toggle-preview '.
   \     '--preview="head -n100 {}"'.
   \     (<bang>0 ? '' : ' --preview-window=right:50%:hidden') })
@@ -493,7 +511,7 @@ set nowrap
 
 " Vim UI
 set wildmenu " turn on wild menu, try typing :h and press <Tab>
-set showcmd	" display incomplete commands
+set showcmd " display incomplete commands
 set cmdheight=1 " 1 screen lines to use for the command-line
 set ruler " show the cursor position all the time
 set hid " allow to change buffer without saving
@@ -507,11 +525,11 @@ set winminheight=0 winminwidth=0 " sane window resizing behavior
 set number
 
 " Search (/)
-set hls			" Enable search pattern highlight
-set incsearch	" Do incremental searching
-set ignorecase	" Set search/replace pattern to ignore case
-set smartcase	" Set smartcase mode on, If there is upper case character in
-				" the search patern, the 'ignorecase' option will be override.
+set hls " Enable search pattern highlight
+set incsearch " Do incremental searching
+set ignorecase " Set search/replace pattern to ignore case
+set smartcase " Set smartcase mode on, If there is upper case character in
+              " the search patern, the 'ignorecase' option will be override.
 
 " Common indent settings
 set shiftwidth=4
@@ -521,19 +539,19 @@ set noexpandtab
 set autoindent
 set smartindent
 " See help cinoptions-values for more details
-set	cinoptions=>s,e0,n0,f0,{0,}0,^0,:0,=s,l0,b0,g0,hs,ps,ts,is,+s,c3,C0,0,
-	\(0,us,U0,w0,W0,m0,j0,)20,*30
+set cinoptions=>s,e0,n0,f0,{0,}0,^0,:0,=s,l0,b0,g0,hs,ps,ts,is,+s,c3,C0,0,
+  \(0,us,U0,w0,W0,m0,j0,)20,*30
 
 " File type specific indent settings
 autocmd FileType c,cpp,proto,python,cmake,javascript,java,vim
-	\ setlocal sw=2 ts=2 sts=2 expandtab autoindent
+  \ setlocal sw=2 ts=2 sts=2 expandtab autoindent
 
 " Disable line numbers and color column in quickfix window, also enable wrap.
 autocmd FileType qf setlocal wrap nonumber colorcolumn=
 
 " Jump to the last position when reopening a file
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") |
-	\ exe "normal! g'\"" | endif
+  \ exe "normal! g'\"" | endif
 
 " Highlight lines >= 80 chars and trailing whitespaces
 function! HighlightFormatting()
@@ -578,9 +596,9 @@ colorscheme my_colors_light
 function! BufJobSign()
   let bufnum = bufnr('%')
   let s = ''
-	if ale#engine#IsCheckingBuffer(bufnum)
-		let s = '@'
-	endif
+  if ale#engine#IsCheckingBuffer(bufnum)
+    let s = '@'
+  endif
   if getbufvar(bufnum, 'compl_tags_job', 0) > 0
     let s = s . 't '
   elseif s != ''
@@ -591,22 +609,11 @@ endfunction
 
 highlight BufJobSign ctermfg=LightBlue ctermbg=Black cterm=bold
 set statusline=%#BufJobSign#%{BufJobSign()}
-	\%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+  \%*%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 "------------------------------------------------------------------------------
 " Generate file specific tags using ALE defs for clang
 "------------------------------------------------------------------------------
-
-function! BufferIsPreview()
-  let bufnr = bufnr('%')
-  for nr in range(1, winnr('$'))
-    if winbufnr(nr) == bufnr && !getwinvar(nr, '&previewwindow') &&
-      \ !getwinvar(nr, 'neoview_p')
-      return v:false
-    endif
-  endfor
-  return v:true
-endfunction
 
 function! GenerateCppCompletionTags()
   if &filetype == 'cpp' && exists('g:ale_cpp_clang_executable') &&
@@ -652,8 +659,29 @@ function! GenerateCppCompletionTags()
   endif
 endfunction
 autocmd BufWritePost * call GenerateCppCompletionTags()
-autocmd BufReadPost * if !BufferIsPreview() |
-  \ call GenerateCppCompletionTags() | endif
+
+function! HandlePreview()
+  let bufnr = bufnr('%')
+  if getwinvar(winnr(), 'neoview_p') || getwinvar(winnr(), '&previewwindow')
+    " The buffer is in the preview window, disable ALE and don't generate
+    " completion tags (b:compl_tags).
+    let b:ale_enabled = 0
+    return
+  endif
+  for nr in range(1, winnr('$'))
+    if winbufnr(nr) == bufnr && (getwinvar(nr, '&previewwindow') ||
+      \ getwinvar(nr, 'neoview_p'))
+      " The buffer is displayed in a preview window.
+      let b:ale_enabled = 0
+      return
+    endif
+  endfor
+  if exists('b:ale_enabled')
+    unlet b:ale_enabled
+  endif
+  call GenerateCppCompletionTags()
+endfunction
+autocmd BufReadPost * call HandlePreview()
 
 function! DeleteCompletionTags()
   let bufnum = +expand('<abuf>')
