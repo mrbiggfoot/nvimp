@@ -16,7 +16,6 @@ Plug 'vim-python/python-syntax'
 Plug 'mrbiggfoot/vim-cpp-enhanced-highlight'
 Plug 'mrbiggfoot/my-colors-light'
 Plug 'mrbiggfoot/unite-tselect2'
-Plug 'mrbiggfoot/unite-id'
 Plug 'mrbiggfoot/neoview'
 
 Plug 'Shougo/unite.vim'
