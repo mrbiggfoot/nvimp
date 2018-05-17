@@ -417,8 +417,9 @@ exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
 
 " Finds the word under cursor either in the project files or in all files,
 " based on the 'in_project' value.
-function! FindWordUnderCursor(in_project)
-  let rg_opt = "--colors 'path:fg:blue' --colors 'path:style:bold' "
+function! FindWordUnderCursor(in_project, whole_word)
+  let rg_opt = "--colors 'path:fg:blue' --colors 'path:style:bold' " .
+    \ (a:whole_word ? '-w ' : '')
   if a:in_project && filereadable(g:cur_prj_settings_sh)
     let rg_opt = rg_opt . '$PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG'
     let arg = neoview#fzf#ripgrep_arg(expand("<cword>"), rg_opt)
@@ -432,9 +433,9 @@ function! FindWordUnderCursor(in_project)
   call neoview#fzf#run(arg)
 endfunction
 
-" Shift-F12 - find the word under cursor in the project files
-nnoremap <silent> <S-F12> :call FindWordUnderCursor(v:true)<CR>
-inoremap <silent> <S-F12> <Esc>:call FindWordUnderCursor(v:true)<CR>
+" Shift-F12 - find the whole word under cursor in the project files
+nnoremap <silent> <S-F12> :call FindWordUnderCursor(v:true, v:true)<CR>
+inoremap <silent> <S-F12> <Esc>:call FindWordUnderCursor(v:true, v:true)<CR>
 
 " Ctrl-P - open list of files
 function! FilesCmd(file_source)
