@@ -51,6 +51,9 @@ imap <expr><end> pumvisible() ?
 imap <expr><cr> pumvisible() ? "\<plug>(MUcompletePopupAccept)" : "\<cr>"
 let g:mucomplete#no_popup_mappings = 1
 
+" neoview
+let g:neoview_fzf_common_opt = '--bind=tab:down --reverse'
+
 " Unite
 call unite#custom#profile('default', 'context', {
 \ 'direction': 'dynamicbottom',
@@ -415,18 +418,18 @@ let s:f12_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 tselect')
 exec 'nnoremap <silent> <F12> ' . s:f12_cmd
 exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
 
-" Finds the word under cursor either in the project files or in all files,
-" based on the 'in_project' value.
-function! FindWordUnderCursor(in_project, whole_word)
+" Finds the pattern either in the project files or in all files, based on
+" the 'in_project' value.
+function! FindPattern(pattern, in_project, ripgrep_opt)
   let rg_opt = "--colors 'path:fg:blue' --colors 'path:style:bold' " .
-    \ (a:whole_word ? '-w ' : '')
+    \ a:ripgrep_opt
   if a:in_project && filereadable(g:cur_prj_settings_sh)
-    let rg_opt = rg_opt . '$PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG'
-    let arg = neoview#fzf#ripgrep_arg(expand("<cword>"), rg_opt)
+    let rg_opt = rg_opt . ' $PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG'
+    let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
     let arg.source = 'source ' . g:cur_prj_settings_sh . ' && ' .
       \ 'eval "' . arg.source . ' $PRJ_DIRS_ARG"'
   else
-    let arg = neoview#fzf#ripgrep_arg(expand("<cword>"), rg_opt)
+    let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
   endif
   let arg.fzf_win = 'below %40split | set winfixheight'
   let arg.preview_win = 'above %100split'
@@ -434,8 +437,10 @@ function! FindWordUnderCursor(in_project, whole_word)
 endfunction
 
 " Shift-F12 - find the whole word under cursor in the project files
-nnoremap <silent> <S-F12> :call FindWordUnderCursor(v:true, v:true)<CR>
-inoremap <silent> <S-F12> <Esc>:call FindWordUnderCursor(v:true, v:true)<CR>
+nnoremap <silent> <S-F12>
+  \ :call FindPattern(expand("<cword>"), v:true, '-w')<CR>
+inoremap <silent> <S-F12>
+  \ <Esc>:call FindPattern(expand("<cword>"), v:true, '-w')<CR>
 
 " Ctrl-P - open list of files
 function! FilesCmd(file_source)
@@ -454,21 +459,24 @@ exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
 " Custom commands
 "------------------------------------------------------------------------------
 
-" F - find a pattern in the IDs database (case insensitive)
-command! -nargs=1 -complete=tag F :Unite -previewheight=100
-  \ id/lid:<args>:-r\ -i
+" F - find a pattern (case sensitive)
+command! -bang -nargs=1 -complete=tag F
+  \ :call FindPattern(shellescape(<q-args>), !<bang>0, '')
 
-" FW - find an exact word in the IDs database (case insensitive)
-command! -nargs=1 -complete=tag FW :Unite -previewheight=100
-  \ id/lid:<args>:-w\ -i
+" FW - find an exact word (case sensitive)
+command! -bang -nargs=1 -complete=tag FW
+  \ :call FindPattern(shellescape(<q-args>), !<bang>0, '-w')
 
-" FC - find a pattern in the IDs database (case sensitive)
-command! -nargs=1 -complete=tag FC :Unite -previewheight=100 id/lid:<args>:-r
+" FC - find a pattern (ignore case)
+command! -bang -nargs=1 -complete=tag FC
+  \ :call FindPattern(shellescape(<q-args>), !<bang>0, '-i')
 
-" FWC - find an exact word in the IDs database (case sensitive)
-command! -nargs=1 -complete=tag FWC :Unite -previewheight=100 id/lid:<args>:-w
+" FWC - find an exact word (ignore case)
+command! -bang -nargs=1 -complete=tag FWC
+  \ :call FindPattern(shellescape(<q-args>), !<bang>0, '-i -w')
 " ...and alias:
-command! -nargs=1 -complete=tag FCW :Unite -previewheight=100 id/lid:<args>:-w
+command! -bang -nargs=1 -complete=tag FCW
+  \ :call FindPattern(shellescape(<q-args>), !<bang>0, '-i -w')
 
 " FT - find an exact word in the tags database (case insensitive)
 command! -nargs=1 -complete=tag FT :Unite -previewheight=100 tselect:^<args>$
