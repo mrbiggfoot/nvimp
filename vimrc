@@ -128,13 +128,10 @@ function! s:configure_project()
 
   if isdirectory(cur_prj_meta_root)
     let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
-    let g:cur_prj_completions = cur_prj_meta_root . "/completions"
+    let g:cur_prj_tagnames = cur_prj_meta_root . "/tagnames"
 
     " The following line is needed for project files opener key mapping
     let g:cur_prj_files = cur_prj_meta_root . "/files"
-
-    " The following line specifies the IDs db path
-    let g:unite_ids_db_path = cur_prj_meta_root . "/ID"
 
     exec "set tags=" . g:cur_prj_ctags . ";"
   endif
@@ -315,7 +312,7 @@ function! SearchCmd(searcher, prompt)
   if !exists('g:cur_prj_ctags')
     return ':echo "No ctags file!"<CR>'
   endif
-  return ':call fzf#run({"source":"cat ' . g:cur_prj_completions . '",
+  return ':call fzf#run({"source":"cat ' . g:cur_prj_tagnames . '",
     \"sink":"' . a:searcher . '",
     \"window":"aboveleft new",
     \"options":"--reverse --bind=tab:down --prompt=\"' . a:prompt . '\""})

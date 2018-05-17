@@ -5,11 +5,8 @@ CUR_PRJ_META_ROOT=$PRJ_META_ROOT$(pwd)
 CUR_PRJ_SETTINGS=$CUR_PRJ_META_ROOT/project_settings.sh
 CUR_PRJ_BRANCH_META_ROOT=$CUR_PRJ_META_ROOT/$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 CUR_PRJ_FILES=${CUR_PRJ_BRANCH_META_ROOT}/files
-CUR_PRJ_FILES0=${CUR_PRJ_BRANCH_META_ROOT}/files0
 CUR_PRJ_CTAGS=${CUR_PRJ_BRANCH_META_ROOT}/tags
-CUR_PRJ_LANG_MAP=${CUR_PRJ_BRANCH_META_ROOT}/lang_map
-CUR_PRJ_IDS=${CUR_PRJ_BRANCH_META_ROOT}/ID
-CUR_PRJ_COMPLETIONS=${CUR_PRJ_BRANCH_META_ROOT}/completions
+CUR_PRJ_TAGNAMES=${CUR_PRJ_BRANCH_META_ROOT}/tagnames
 
 print_usage()
 {
@@ -123,40 +120,11 @@ echo Generate list of project files
 CMD="rg --files $PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG $PRJ_DIRS_ARG | sort > $CUR_PRJ_FILES"
 eval $CMD
 
-# Generate IDs
-echo Generate IDs
-cat $CUR_PRJ_FILES | tr '\n' '\0' > $CUR_PRJ_FILES0
-
-write_lang_map()
-{
-	echo "*.c     text"
-	echo "*.C     text"
-	echo "*.c++   text"
-	echo "*.cc    text"
-	echo "*.cp    text"
-	echo "*.cpp   text"
-	echo "*.cxx   text"
-	echo "*.h     text"
-	echo "*.H     text"
-	echo "*.h++   text"
-	echo "*.hh    text"
-	echo "*.hp    text"
-	echo "*.hpp   text"
-	echo "*.hxx   text"
-	echo "*.inl   text"
-	echo "*.ipp   text"
-	echo "*.proto text"
-	echo "*.py    text"
-}
-write_lang_map > $CUR_PRJ_LANG_MAP
-mkid --include="text" --default-lang="text" --lang-map=$CUR_PRJ_LANG_MAP --files0-from=$CUR_PRJ_FILES0 --output=$CUR_PRJ_IDS
-rm -f $CUR_PRJ_FILES0 $CUR_PRJ_LANG_MAP
-
 # Generate ctags
 echo Generate ctags
 CTAGS_OPT="--tag-relative=yes --c++-kinds=+p --fields=+iaS --extra=+q --languages=c,c++,c#,python,vim,html,lua,javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as"
 ctags -o $CUR_PRJ_CTAGS $CTAGS_OPT -L $CUR_PRJ_FILES
 
-# Generate completions
-echo Generate completions
-grep -v "^\!" $CUR_PRJ_CTAGS | awk '{ if (length($1) > 3) print $1 }' | grep -v "::" | sort | uniq >$CUR_PRJ_COMPLETIONS
+# Generate tag names
+echo Generate tag names
+grep -v "^\!" $CUR_PRJ_CTAGS | awk '{ if (length($1) > 3) print $1 }' | grep -v "::" | sort | uniq >$CUR_PRJ_TAGNAMES
