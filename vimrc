@@ -52,11 +52,16 @@ let g:mucomplete#no_popup_mappings = 1
 
 " neoview
 let g:neoview_fzf_common_opt = '--bind=tab:down --reverse'
-" Opt-. and Opt-; preview scrolling
+" Opt-. and Opt-; preview scrolling (1 line)
 tnoremap <silent> … <C-\><C-n>
   \ :call neoview#feed_keys_to_preview("\<lt>C-y>")<CR>
 tnoremap <silent> ≥ <C-\><C-n>
   \ :call neoview#feed_keys_to_preview("\<lt>C-e>")<CR>
+" Opt-, and Opt-l preview scrolling (page)
+tnoremap <silent> ¬ <C-\><C-n>
+  \ :call neoview#feed_keys_to_preview("\<lt>PageUp>")<CR>
+tnoremap <silent> ≤ <C-\><C-n>
+  \ :call neoview#feed_keys_to_preview("\<lt>PageDown>")<CR>
 
 " Unite
 call unite#custom#profile('default', 'context', {
