@@ -52,6 +52,11 @@ let g:mucomplete#no_popup_mappings = 1
 
 " neoview
 let g:neoview_fzf_common_opt = '--bind=tab:down --reverse'
+" Opt-. and Opt-; preview scrolling
+tnoremap <silent> … <C-\><C-n>
+  \ :call neoview#feed_keys_to_preview("\<lt>C-y>")<CR>
+tnoremap <silent> ≥ <C-\><C-n>
+  \ :call neoview#feed_keys_to_preview("\<lt>C-e>")<CR>
 
 " Unite
 call unite#custom#profile('default', 'context', {
@@ -369,6 +374,10 @@ inoremap <F7> <C-o>:call ToggleColorColumn()<CR>
 " F8 - clear highlight of the last search until the next search
 nnoremap <F8> :noh<CR>
 inoremap <F8> <C-o>:noh<CR>
+
+" S-F8 - clear match in the current window
+nnoremap <S-F8> :match none<CR>
+inoremap <S-F8> <C-o>:match none<CR>
 
 " F9 - history
 let g:history_layout = { "down":"~40%" }
