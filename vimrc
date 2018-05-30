@@ -4,6 +4,7 @@
 
 call plug#begin('~/neovim/plugged')
 
+Plug 'mrbiggfoot/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'vim-scripts/a.vim'
