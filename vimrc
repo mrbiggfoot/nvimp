@@ -177,6 +177,7 @@ function! FindPattern(pattern, in_project, ripgrep_opt)
   endif
   let arg.fzf_win = 'botright %40split | set winfixheight'
   let arg.preview_win = 'above %100split'
+  let arg.opt = arg.opt . '--no-bold --color=fg+:0,bg+:159,hl+:196,hl:172'
   call neoview#fzf#run(arg)
 endfunction
 
@@ -201,6 +202,7 @@ function! FindTag(tagname, in_project, ignore_case)
   let arg = neoview#fzf#tags_arg(a:tagname, a:ignore_case, tagfile)
   let arg.fzf_win = 'botright %40split | set winfixheight'
   let arg.preview_win = 'above %100split'
+  let arg.opt = arg.opt . '--no-bold --color=fg+:0,bg+:159,hl+:196,hl:172'
   call neoview#fzf#run(arg)
 endfunction
 
