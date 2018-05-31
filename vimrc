@@ -445,17 +445,16 @@ inoremap <silent> <S-F12>
   \ <Esc>:call FindPattern(expand("<cword>"), v:true, '-w')<CR>
 
 " Ctrl-P - open list of files
-function! FilesCmd(file_source)
-  return ':call fzf#run({"source":"' . a:file_source . '", "sink":"e",
-    \"up":"~40%", "options":"--reverse --bind=tab:down"})<CR>'
+function! FindFile(in_project)
+  let arg = neoview#fzf#ripgrep_files_arg('')
+  if a:in_project && exists("g:cur_prj_files")
+    let arg.source = 'cat ' . g:cur_prj_files
+  endif
+  let arg.fzf_win = 'topleft %40split | set winfixheight'
+  call neoview#fzf#run(arg)
 endfunction
-if exists("g:cur_prj_files")
-  let s:ctrl_p_cmd = FilesCmd('cat ' . g:cur_prj_files)
-else
-  let s:ctrl_p_cmd = FilesCmd('rg --files')
-endif
-exec 'nnoremap <silent> <C-p> ' . s:ctrl_p_cmd
-exec 'inoremap <silent> <C-p> <Esc>' . s:ctrl_p_cmd
+nnoremap <silent> <C-p> :call FindFile(v:true)<CR>
+inoremap <silent> <C-p> <Esc>:call FindFile(v:true)<CR>
 
 "------------------------------------------------------------------------------
 " Custom commands
