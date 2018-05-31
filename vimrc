@@ -51,7 +51,12 @@ imap <expr><cr> pumvisible() ? "\<plug>(MUcompletePopupAccept)" : "\<cr>"
 let g:mucomplete#no_popup_mappings = 1
 
 " neoview
-let g:neoview_fzf_common_opt = '--bind=tab:down --reverse'
+let g:neoview_fzf_common_opt = '--reverse --bind=tab:down
+  \ --bind=ctrl-s:line-up --bind=ctrl-x:line-down'
+" Ctrl-up|down - scroll search by one line
+tnoremap <expr><silent> <C-Up> neoview#is_search_win() ? "\<C-s>" : "\<C-Up>"
+tnoremap <expr><silent> <C-Down> neoview#is_search_win() ?
+  \ "\<C-x>" : "\<C-Down>"
 " Opt-. and Opt-; preview scrolling (1 line)
 tnoremap <silent> … <C-\><C-n>
   \ :call neoview#feed_keys_to_preview("\<lt>C-y>")<CR>
