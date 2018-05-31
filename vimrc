@@ -444,7 +444,7 @@ nnoremap <silent> <S-F12>
 inoremap <silent> <S-F12>
   \ <Esc>:call FindPattern(expand("<cword>"), v:true, '-w')<CR>
 
-" Ctrl-P - open list of files
+" Ctrl-P - open list of files, prefer in project
 function! FindFile(in_project)
   let arg = neoview#fzf#ripgrep_files_arg('')
   if a:in_project && exists("g:cur_prj_files")
@@ -455,6 +455,10 @@ function! FindFile(in_project)
 endfunction
 nnoremap <silent> <C-p> :call FindFile(v:true)<CR>
 inoremap <silent> <C-p> <Esc>:call FindFile(v:true)<CR>
+
+" Alt-Shift-P - open list of all files
+nnoremap <silent> ∏ :call FindFile(v:false)<CR>
+inoremap <silent> ∏ <Esc>:call FindFile(v:false)<CR>
 
 "------------------------------------------------------------------------------
 " Custom commands
