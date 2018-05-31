@@ -141,13 +141,13 @@ function! s:configure_project()
     \ prj_meta_root . cur_prj_root . '/project_settings.sh'
 
   if isdirectory(cur_prj_meta_root)
-    let g:cur_prj_ctags = cur_prj_meta_root . "/tags"
+    let g:cur_prj_tags = cur_prj_meta_root . "/tags"
     let g:cur_prj_tagnames = cur_prj_meta_root . "/tagnames"
 
     " The following line is needed for project files opener key mapping
     let g:cur_prj_files = cur_prj_meta_root . "/files"
 
-    exec "set tags=" . g:cur_prj_ctags . ";"
+    exec "set tags=" . g:cur_prj_tags . ";"
   endif
 endfunction
 
@@ -156,6 +156,62 @@ call s:configure_project()
 function! s:update_project()
   exec '!' . s:vimp_path . '/project_generate.sh'
   call s:configure_project()
+endfunction
+
+"------------------------------------------------------------------------------
+" Neoview find functions
+"------------------------------------------------------------------------------
+
+" Finds the pattern either in the project files or in all files, based on
+" the 'in_project' value.
+function! FindPattern(pattern, in_project, ripgrep_opt)
+  let rg_opt = "--colors 'path:fg:blue' --colors 'path:style:bold' " .
+    \ a:ripgrep_opt
+  if a:in_project && filereadable(g:cur_prj_settings_sh)
+    let rg_opt = rg_opt . ' $PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG'
+    let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
+    let arg.source = 'source ' . g:cur_prj_settings_sh . ' && ' .
+      \ 'eval "' . arg.source . ' $PRJ_DIRS_ARG"'
+  else
+    let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
+  endif
+  let arg.fzf_win = 'botright %40split | set winfixheight'
+  let arg.preview_win = 'above %100split'
+  call neoview#fzf#run(arg)
+endfunction
+
+" Find tag, either in g:cur_prj_tags (if in_project is set) or b:compl_tags.
+function! FindTag(tagname, in_project, ignore_case)
+  if a:in_project
+    if exists('g:cur_prj_tags')
+      let tagfile = g:cur_prj_tags
+    endif
+  else
+    " If 'in_project' is not set, prefer b:compl_tags over g:cur_prj_tags.
+    if exists('b:compl_tags')
+      let tagfile = b:compl_tags
+    elseif exists('g:cur_prj_tags')
+      let tagfile = g:cur_prj_tags
+    endif
+  endif
+  if !exists('tagfile')
+    echoerr "No tag file"
+    return
+  endif
+  let arg = neoview#fzf#tags_arg(a:tagname, a:ignore_case, tagfile)
+  let arg.fzf_win = 'botright %40split | set winfixheight'
+  let arg.preview_win = 'above %100split'
+  call neoview#fzf#run(arg)
+endfunction
+
+" Find file name either in the project files or in 'rg --files' output.
+function! FindFile(in_project)
+  let arg = neoview#fzf#ripgrep_files_arg('')
+  if a:in_project && exists("g:cur_prj_files")
+    let arg.source = 'cat ' . g:cur_prj_files
+  endif
+  let arg.fzf_win = 'topleft %40split | set winfixheight'
+  call neoview#fzf#run(arg)
 endfunction
 
 "------------------------------------------------------------------------------
@@ -323,7 +379,7 @@ inoremap <silent> <F1> <Esc>:call ToggleLocationWindow()<CR>
 
 " F2 - search tag
 function! SearchCmd(searcher, prompt)
-  if !exists('g:cur_prj_ctags')
+  if !exists('g:cur_prj_tags')
     return ':echo "No ctags file!"<CR>'
   endif
   return ':call fzf#run({"source":"cat ' . g:cur_prj_tagnames . '",
@@ -415,28 +471,15 @@ inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags", 1)<CR>
 nnoremap <silent> <F11> :call neoview#fzf#run({})<CR>
 tnoremap <silent> <F11> <C-\><C-n> :call neoview#fzf#run({})<CR>
 
-" F12 - find definitions of the word under cursor
-let s:f12_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 tselect')
-exec 'nnoremap <silent> <F12> ' . s:f12_cmd
-exec 'inoremap <silent> <F12> <Esc>' . s:f12_cmd
+" F12 - find definitions of the word under cursor, prefer local tags
+nnoremap <silent> <F12> :call FindTag(expand("<cword>"), v:false, v:false)<CR>
+inoremap <silent> <F12>
+  \ <Esc>:call FindTag(expand("<cword>"), v:false, v:false)<CR>
 
-" Finds the pattern either in the project files or in all files, based on
-" the 'in_project' value.
-function! FindPattern(pattern, in_project, ripgrep_opt)
-  let rg_opt = "--colors 'path:fg:blue' --colors 'path:style:bold' " .
-    \ a:ripgrep_opt
-  if a:in_project && filereadable(g:cur_prj_settings_sh)
-    let rg_opt = rg_opt . ' $PRJ_FILE_TYPES_ARG $PRJ_DIRS_EXCLUDE_ARG'
-    let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
-    let arg.source = 'source ' . g:cur_prj_settings_sh . ' && ' .
-      \ 'eval "' . arg.source . ' $PRJ_DIRS_ARG"'
-  else
-    let arg = neoview#fzf#ripgrep_arg(a:pattern, rg_opt)
-  endif
-  let arg.fzf_win = 'botright %40split | set winfixheight'
-  let arg.preview_win = 'above %100split'
-  call neoview#fzf#run(arg)
-endfunction
+" Cmd-F12 - find definitions of the word under cursor, prefer project tags
+nnoremap <silent> <M-F12> :call FindTag(expand("<cword>"), v:true, v:false)<CR>
+inoremap <silent> <M-F12>
+  \ <Esc>:call FindTag(expand("<cword>"), v:true, v:false)<CR>
 
 " Shift-F12 - find the whole word under cursor in the project files
 nnoremap <silent> <S-F12>
@@ -445,14 +488,6 @@ inoremap <silent> <S-F12>
   \ <Esc>:call FindPattern(expand("<cword>"), v:true, '-w')<CR>
 
 " Ctrl-P - open list of files, prefer in project
-function! FindFile(in_project)
-  let arg = neoview#fzf#ripgrep_files_arg('')
-  if a:in_project && exists("g:cur_prj_files")
-    let arg.source = 'cat ' . g:cur_prj_files
-  endif
-  let arg.fzf_win = 'topleft %40split | set winfixheight'
-  call neoview#fzf#run(arg)
-endfunction
 nnoremap <silent> <C-p> :call FindFile(v:true)<CR>
 inoremap <silent> <C-p> <Esc>:call FindFile(v:true)<CR>
 
