@@ -662,7 +662,7 @@ function! GenerateCppCompletionTags()
       \ 'stderr_buffered' : v:true, 'stderr' : '' }
     let opts.cmd = g:ale_cpp_clang_executable . ' ' . g:ale_cpp_clang_options
       \ . ' -MM ' . expand('%:p')
-      \ . ' | awk ''{if (NR == 1) print $2; else print $1}'''
+      \ . ' | awk ''{if (NR > 1) print $1}'''
       \ . ' | ctags -o ' . opts['name'] . ' --tag-relative=yes --c++-kinds=+p'
       \ . ' --fields=+iaS --extra=+q --languages=c,c++,c#,python,vim,html,lua,'
       \ . 'javascript,java,protobuf,go -L -'
