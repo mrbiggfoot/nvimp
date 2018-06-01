@@ -665,8 +665,7 @@ function! GenerateCppCompletionTags()
       \ . ' | awk ''{if (NR == 1) print $2; else print $1}'''
       \ . ' | ctags -o ' . opts['name'] . ' --tag-relative=yes --c++-kinds=+p'
       \ . ' --fields=+iaS --extra=+q --languages=c,c++,c#,python,vim,html,lua,'
-      \ . 'javascript,java,protobuf --langmap=c++:+.inl,c:+.fx,c:+.fxh,'
-      \ . 'c:+.hlsl,c:+.vsh,c:+.psh,c:+.cg,c:+.shd,javascript:+.as -L -'
+      \ . 'javascript,java,protobuf,go -L -'
 
     function! opts.on_stderr(job_id, data, event)
       let self.stderr = join(a:data, "\n")
