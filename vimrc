@@ -473,15 +473,16 @@ inoremap <S-F10> <Esc>:call FzfWindow(g:nvimp_fzf_tags_layout, "Tags", 1)<CR>
 nnoremap <silent> <F11> :call neoview#fzf#run({})<CR>
 tnoremap <silent> <F11> <C-\><C-n> :call neoview#fzf#run({})<CR>
 
-" F12 - find definitions of the word under cursor, prefer local tags
-nnoremap <silent> <F12> :call FindTag(expand("<cword>"), v:false, v:false)<CR>
+" F12 - find definitions of the word under cursor, prefer project tags
+nnoremap <silent> <F12> :call FindTag(expand("<cword>"), v:true, v:false)<CR>
 inoremap <silent> <F12>
-  \ <Esc>:call FindTag(expand("<cword>"), v:false, v:false)<CR>
-
-" Cmd-F12 - find definitions of the word under cursor, prefer project tags
-nnoremap <silent> <M-F12> :call FindTag(expand("<cword>"), v:true, v:false)<CR>
-inoremap <silent> <M-F12>
   \ <Esc>:call FindTag(expand("<cword>"), v:true, v:false)<CR>
+
+" Cmd-F12 - find definitions of the word under cursor, prefer local tags
+nnoremap <silent> <M-F12>
+  \ :call FindTag(expand("<cword>"), v:false, v:false)<CR>
+inoremap <silent> <M-F12>
+  \ <Esc>:call FindTag(expand("<cword>"), v:false, v:false)<CR>
 
 " Shift-F12 - find the whole word under cursor in the project files
 nnoremap <silent> <S-F12>
