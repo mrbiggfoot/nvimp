@@ -720,7 +720,7 @@ function! DeleteCompletionTags()
   let bufnum = +expand('<abuf>')
   let job_id = getbufvar(bufnum, 'compl_tags_job', 0)
   if job_id > 0
-    jobstop(job_id)
+    call jobstop(job_id)
     call setbufvar(bufnum, 'compl_tags_job', 0)
   endif
   let name = getbufvar(bufnum, 'compl_tags', '')
