@@ -216,6 +216,13 @@ function! FindFile(in_project)
   call neoview#fzf#run(arg)
 endfunction
 
+" Find line in the current buffer.
+function! FindBufLine()
+  let arg = neoview#fzf#buf_lines_arg()
+  let arg.fzf_win = 'below %40split | set winfixheight'
+  call neoview#fzf#run(arg)
+endfunction
+
 "------------------------------------------------------------------------------
 " Keyboard shortcuts
 "------------------------------------------------------------------------------
@@ -401,15 +408,8 @@ exec 'nnoremap <silent> <S-F2> ' . s:search_id_cmd
 exec 'inoremap <silent> <S-F2> <Esc>' . s:search_id_cmd
 
 " Cmd-F2 - search lines in the current buffer
-function! BLinesWindow()
-  exec 'let layout = { "window":"below ' .
-    \float2nr(round(winheight('%') * 0.4)) .
-    \'new" }'
-  call FzfWindow(layout, 'call fzf#vim#buffer_lines("",
-    \ { "options": "--bind=tab:down" })', 0)
-endfunction
-nnoremap <silent> <M-F2> :call BLinesWindow()<CR>
-inoremap <silent> <M-F2> <Esc>:call BLinesWindow()<CR>
+nnoremap <silent> <M-F2> :call FindBufLine()<CR>
+inoremap <silent> <M-F2> <Esc>:call FindBufLine()<CR>
 
 " F3 - browse buffers
 let s:f3_cmd = StartOrCloseUniteCallCmd('Unite -previewheight=100 buffer')
