@@ -196,13 +196,33 @@ function! FindTag(tagname, in_project, ignore_case)
     endif
   endif
   if !exists('tagfile')
-    echoerr "No tag file"
+    echomsg "No tag file!"
     return
   endif
   let arg = neoview#fzf#tags_arg(a:tagname, a:ignore_case, tagfile)
   let arg.fzf_win = 'botright %40split | set winfixheight'
   let arg.preview_win = 'above %100split'
   let arg.opt = arg.opt . '--no-bold --color=fg+:0,bg+:159,hl+:196,hl:172'
+  call neoview#fzf#run(arg)
+endfunction
+
+function! s:ViewTagName(ctx, final)
+  if a:final
+    exec 'FT ' . a:ctx[0]
+  endif
+endfunction
+
+function! FindTagName()
+  if !exists('g:cur_prj_tagnames')
+    echomsg "No tag names file!"
+    return
+  endif
+  let arg = {
+    \ 'source' : 'cat ' . g:cur_prj_tagnames,
+    \ 'view_fn' : function('s:ViewTagName'),
+    \ 'fzf_win' : 'above %40split | set winfixheight',
+    \ 'preview_win' : 'below %100split'
+    \ }
   call neoview#fzf#run(arg)
 endfunction
 
@@ -616,7 +636,8 @@ autocmd InsertEnter * call SetColorColumn(1)
 autocmd InsertLeave * call SetColorColumn(0)
 
 " Automatically enter insert mode in terminal window
-autocmd TermOpen,BufWinEnter,WinEnter term://* startinsert
+autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd TermOpen * startinsert
 
 " No line numbers in terminal window
 autocmd TermOpen * setlocal nonumber norelativenumber
