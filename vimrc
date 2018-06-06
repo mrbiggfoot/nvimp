@@ -207,8 +207,13 @@ function! FindTag(tagname, in_project, ignore_case)
 endfunction
 
 function! s:ViewTagName(ctx, final)
+  function! RunFT(timer)
+    startinsert
+  endfunction
   if a:final
-    exec 'FT ' . a:ctx[0]
+    " XXX this is a hack to fix neovim not entering insert mode.
+    call timer_start(15, 'RunFT', {'repeat': 1})
+    call FindTag(a:ctx[0], v:true, v:false)
   endif
 endfunction
 
@@ -542,7 +547,7 @@ command! -bang -nargs=1 -complete=tag FWC
 command! -bang -nargs=1 -complete=tag FCW
   \ :call FindPattern(shellescape(<q-args>), !<bang>0, '-i -w')
 
-" FT - find an exact word in the tags database (case insensitive)
+" FT - find an exact word in the tags database (case sensitive)
 command! -nargs=1 -complete=tag FT :call FindTag(<q-args>, v:true, v:false)
 
 " FTE - match an expression in the tags database
